@@ -1,9 +1,10 @@
-import 'package:anotacoes/core/data/preferences.dart';
-import 'package:anotacoes/viewmodel/anotation_model.dart';
-import 'package:anotacoes/viewmodel/content_model.dart';
+
 import 'package:get_it/get_it.dart';
 
+import 'core/data/preferences.dart';
 import 'core/services/api.dart';
+import 'viewmodel/anotation_model.dart';
+import 'viewmodel/content_model.dart';
 
 GetIt locator = GetIt();
 

@@ -1,11 +1,10 @@
-import 'package:anotacoes/core/model/domain/anotation.dart';
-import 'package:anotacoes/test.dart';
-import 'package:anotacoes/ui/view/new_anotation.dart';
-import 'package:anotacoes/ui/view/search_view.dart';
+
 import 'package:flutter/material.dart';
 
-import '../main.dart';
-import 'package:anotacoes/ui/view/anotation_view.dart';
+import '../core/model/domain/anotation.dart';
+import 'view/anotation_view.dart';
+import 'view/new_anotation.dart';
+import 'view/search_view.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
