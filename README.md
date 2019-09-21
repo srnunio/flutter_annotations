@@ -1,6 +1,7 @@
 # Flutter Annotations
 
-<img src="/icon.svg" width="80" height="80"> 
+## <img src="/icon.svg" width="80" height="80"> 
+
 ## Flutter annotations is a notebook.
 
 Sketchers, annotate ideas, and save information to reuse later is now easier with Flutter Annotations.
