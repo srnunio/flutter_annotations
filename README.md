@@ -7,7 +7,7 @@ Sketchers, annotate ideas, and save information to reuse later is now easier wit
 
 ## Screenshots
 
-<img src="/screenshots/image1.png" width="270" height="480"> | 
+<img src="/screenshots/image1.png" width="250" height="480"> | 
 <img src="/screenshots/image2.png" width="270" height="480"> | 
 <img src="/screenshots/image3.png" width="270" height="480"> |
 
