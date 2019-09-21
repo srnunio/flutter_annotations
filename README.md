@@ -5,11 +5,11 @@
 Sketchers, annotate ideas, and save information to reuse later is now easier with Flutter Annotations.
 
 ## PageView
-![Logo](icon.svg "Icon")
+![Logo] <img src="/icon.svg" width="100" height="100"> 
 
 ## Views
 
- [Custom]
+![Custom]
 | ------------- | ------------- | ------------- |
 | <img src="/screenshots/image1.png" width="270" height="480"> | <img src="/screenshots/image2.png" width="270" height="480"> | <img src="/screenshots/image3.png" width="270" height="480"> |
 
