@@ -1,11 +1,8 @@
 # Flutter Annotations
 
-## Flutter annotations is a notebook.
+## Flutter annotations is a notebook. <img src="/icon.svg" width="80" height="80"> 
 
 Sketchers, annotate ideas, and save information to reuse later is now easier with Flutter Annotations.
-
-## PageView
-![Logo] <img src="/icon.svg" width="100" height="100"> 
 
 ## Views
 
