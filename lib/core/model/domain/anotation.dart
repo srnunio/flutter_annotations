@@ -1,5 +1,6 @@
-import 'package:anotacoes/utils/constants.dart';
 
+
+import '../../../utils/constants.dart';
 import 'content.dart';
 
 class Anotation {

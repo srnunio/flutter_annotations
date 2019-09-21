@@ -1,18 +1,17 @@
-import 'package:anotacoes/core/data/preferences.dart';
-import 'package:anotacoes/core/model/domain/anotation.dart';
-import 'package:anotacoes/core/model/domain/content.dart';
-import 'package:anotacoes/core/model/enums/view_state.dart';
-import 'package:anotacoes/core/services/api.dart';
-import 'package:anotacoes/ui/widget/anotation_widget.dart';
-import 'package:anotacoes/utils/Translations.dart';
-import 'package:anotacoes/utils/constants.dart';
-import 'package:anotacoes/utils/styles.dart';
-import 'package:anotacoes/utils/utils.dart';
-import 'package:anotacoes/viewmodel/base_model.dart';
+
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
+import '../core/data/preferences.dart';
+import '../core/model/domain/anotation.dart';
+import '../core/model/enums/view_state.dart';
 import '../locator.dart';
+import '../ui/widget/anotation_widget.dart';
+import '../utils/Translations.dart';
+import '../utils/constants.dart';
+import '../utils/styles.dart';
+import '../utils/utils.dart';
+import 'base_model.dart';
 
 class AnotationModel extends BaseModel {
   List<Anotation> anotations;
@@ -57,7 +56,7 @@ class AnotationModel extends BaseModel {
     }
     setState(ViewState.Busy);
     var query =
-        'select * from $DB_ANOTATION_TABLE_NAME where title like ${"'%${value}%'"}';
+        'select * from $DB_ANOTATION_TABLE_NAME where title like ${"'%$value%'"}';
     print('query = ${query}');
     List<Map> jsons = await this.database.rawQuery(query);
     anotations.clear();

@@ -1,19 +1,17 @@
 import 'dart:io';
-
-import 'package:anotacoes/core/services/api.dart';
-import 'package:anotacoes/locator.dart';
-import 'package:anotacoes/ui/router.dart';
-import 'package:anotacoes/ui/view/anotation_view.dart';
-import 'package:anotacoes/utils/Translations.dart';
-import 'package:anotacoes/utils/constants.dart';
-import 'package:anotacoes/utils/styles.dart';
-import 'package:anotacoes/utils/utils.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
 import 'package:async/async.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:expandable/expandable.dart';
+
+import 'core/services/api.dart';
+import 'locator.dart';
+import 'ui/router.dart';
+import 'utils/Translations.dart';
+import 'utils/constants.dart';
+import 'utils/utils.dart';
 
 
 Future<Null> main() async {

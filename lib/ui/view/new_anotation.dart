@@ -1,20 +1,19 @@
 import 'dart:math';
 
-import 'package:anotacoes/core/model/domain/anotation.dart';
-import 'package:anotacoes/core/model/domain/content.dart';
-import 'package:anotacoes/core/model/enums/view_state.dart';
-import 'package:anotacoes/utils/Translations.dart';
-import 'package:anotacoes/utils/constants.dart';
-import 'package:anotacoes/utils/styles.dart';
-import 'package:anotacoes/utils/utils.dart';
-import 'package:anotacoes/viewmodel/anotation_model.dart';
-import 'package:anotacoes/viewmodel/content_model.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:share/share.dart';
 
+import '../../core/model/domain/anotation.dart';
+import '../../core/model/domain/content.dart';
+import '../../core/model/enums/view_state.dart';
+import '../../utils/Translations.dart';
+import '../../utils/constants.dart';
+import '../../utils/styles.dart';
+import '../../utils/utils.dart';
+import '../../viewmodel/content_model.dart';
 import 'base_view.dart';
 
 class NewAnotation extends StatefulWidget {

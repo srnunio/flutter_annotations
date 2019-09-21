@@ -1,8 +1,10 @@
-import 'package:anotacoes/locator.dart';
-import 'package:anotacoes/viewmodel/base_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_lifecycle_state/flutter_lifecycle_state.dart';
 import 'package:provider/provider.dart';
+
+import '../../locator.dart';
+import '../../viewmodel/base_model.dart';
 
 
 class BaseView<T extends BaseModel> extends StatefulWidget {

@@ -1,14 +1,15 @@
-import 'package:anotacoes/core/data/preferences.dart';
-import 'package:anotacoes/core/model/domain/anotation.dart';
-import 'package:anotacoes/ui/listeners/actions.dart';
-import 'package:anotacoes/utils/Translations.dart';
-import 'package:anotacoes/utils/constants.dart';
-import 'package:anotacoes/utils/styles.dart';
-import 'package:anotacoes/utils/utils.dart';
+
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../core/data/preferences.dart';
+import '../../core/model/domain/anotation.dart';
+import '../../utils/constants.dart';
+import '../../utils/styles.dart';
+import '../../utils/utils.dart';
+import '../listeners/actions.dart';
 
 class AnnotationDetail extends StatelessWidget {
   Anotation _anotation;

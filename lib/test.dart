@@ -1,13 +1,13 @@
-import 'package:anotacoes/utils/Translations.dart';
-import 'package:anotacoes/utils/constants.dart';
-import 'package:anotacoes/utils/styles.dart';
-import 'package:anotacoes/utils/utils.dart';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'core/data/preferences.dart';
 import 'core/model/domain/anotation.dart';
+import 'utils/constants.dart';
+import 'utils/styles.dart';
+import 'utils/utils.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:anotacoes/core/model/user.dart';
+
+import '../model/user.dart';
 
 
 class Api {

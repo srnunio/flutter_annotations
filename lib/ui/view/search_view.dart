@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:anotacoes/core/model/enums/view_state.dart';
-import 'package:anotacoes/ui/widget/anotation_widget.dart';
-import 'package:anotacoes/utils/Translations.dart';
-import 'package:anotacoes/utils/constants.dart';
-import 'package:anotacoes/utils/utils.dart';
-import 'package:anotacoes/viewmodel/anotation_model.dart';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/model/enums/view_state.dart';
+import '../../utils/Translations.dart';
+import '../../utils/constants.dart';
+import '../../utils/utils.dart';
+import '../../viewmodel/anotation_model.dart';
+import '../widget/anotation_widget.dart';
 import 'base_view.dart';
 
 class SearchPage extends StatefulWidget {

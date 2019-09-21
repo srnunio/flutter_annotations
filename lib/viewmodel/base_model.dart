@@ -1,12 +1,13 @@
 import 'dart:io';
 
-import 'package:anotacoes/core/model/domain/anotation.dart';
-import 'package:anotacoes/core/model/domain/content.dart';
-import 'package:anotacoes/core/model/enums/view_state.dart';
-import 'package:anotacoes/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import '../core/model/domain/anotation.dart';
+import '../core/model/domain/content.dart';
+import '../core/model/enums/view_state.dart';
+import '../utils/constants.dart';
 
 class BaseModel extends ChangeNotifier {
   Database database;
