@@ -1,0 +1,48 @@
+{
+  "annotation": "Anotação",
+  "annotations": "Anotações",
+  "new_annotation": "Nova Anotação",
+  "write_something": "Escreva alguma coisa",
+  "no_notes_found": "Nenhuma anotação encontrada",
+  "no_content": "Sem conteúdo",
+  "name_annotation": "Nome da anotação",
+
+  "Monday": "Segunda feira",
+  "Tuesday": "Terça feira",
+  "Wednesday": "Quarta feira",
+  "Thursday": "Quinta feira",
+  "Friday": "Sexta feira",
+  "Saturday": "Sábado",
+  "Sunday": "Domingo",
+  "items": "Itens",
+  "save": "Salvar",
+  "yes": "Sim",
+  "no": "Não",
+  "delete": "Eliminar",
+  "deleted": "Eliminado",
+  "delete_anotation": "Eliminar esta anotação ?",
+  "message_delete_anotation":"Anotação eliminada",
+  "message_delete_error_anotation":"Falha ao eliminar",
+  "message_done_save_annotation": "Anotação guardada",
+  "message_error_save_annotation": "Falha ao salvar anotação",
+  "message_alert_exist_annotation": "Ja existe uma anotação com este nome",
+  "message_alert_name_annotation": "Escreva um nome para esta anotação",
+  "sort": "Ordenar listagem",
+  "view_notes": "Visualizar anotações",
+  "view_avatars": "Visualizar avatar",
+  "search_annotation": "Procurar anotações",
+  "avatar_type_1": "Avatar 1",
+  "avatar_type_2": "Avatar 2",
+  "avatar_type_3": "Avatar 3",
+
+  "sort_type_1": "Data de criação",
+  "sort_type_2": "Data de actualização",
+  "cancel": "Cancelar"
+
+
+
+
+
+
+
+}
