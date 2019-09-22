@@ -17,13 +17,11 @@ Future<Null> main() async {
   runApp(HomeAnotations());
 }
 
-
 class HomeAnotations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return
-      StreamProvider(
-      builder: (context) =>  StreamController(),
+    return StreamProvider(
+      builder: (context) => StreamController(),
       child: MaterialApp(
         supportedLocales: [
           const Locale('pt', 'PT'),
@@ -48,12 +46,7 @@ class HomeAnotations extends StatelessWidget {
           return supportedLocales.first;
         },
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          scaffoldBackgroundColor: Styles.backgroundColor,
-          brightness: Brightness.light,
-          primaryColor: Styles.backgroundColor,
-          accentColor: Styles.iconColor,
-        ),
+        theme: Styles.themeData,
         initialRoute: '/',
         onGenerateRoute: Router.generateRoute,
       ),

@@ -18,28 +18,41 @@ class Styles {
   static Color iconColor ;
   static Color progressColor ;
   static Color backgroundColor ;
+  static ThemeData themeData ;
 
 //  static const Color backgroundColor = Colors.white;
 
-  static iniTheme(){
-//    titleColor = Colors.white;
-//    subtitleColor = Colors.white;
-//    iconColor = Colors.white;
-//    progressColor =  colorParse(hexCode: '#F26430');
-//    backgroundColor = colorParse(hexCode: '#1D2026');
-//    placeholderColor = colorParse(hexCode: '#323640');
+  static ThemeData themeDark (){
+    titleColor = Colors.white;
+    subtitleColor = Colors.white;
+    iconColor = Colors.white;
+    progressColor = colorParse(hexCode: '#F26430');
+    backgroundColor = colorParse(hexCode: '#1D2026');
+    placeholderColor = colorParse(hexCode: '#323640');
+    return ThemeData(
+      scaffoldBackgroundColor: Styles.backgroundColor,
+      brightness: Brightness.light,
+      primaryColor: Styles.backgroundColor,
+      accentColor: Styles.iconColor,
+    );
+  }
 
+  static ThemeData themeLight(){
     titleColor = Colors.black;
     subtitleColor = Colors.black;
     iconColor = colorParse(hexCode: '#F26430');
     progressColor =  colorParse(hexCode: '#F26430');
     backgroundColor = colorParse(hexCode: '#ffffff');
     placeholderColor = Colors.grey[200];
-
-//    titleColor =  colorParse(hexCode: '#F26430');
-//    backgroundColor = Colors.black;
-//    iconColor = colorParse(hexCode: '#F26430');
-//    progressColor = Colors.white;
+    return ThemeData(
+      scaffoldBackgroundColor: Styles.backgroundColor,
+      brightness: Brightness.light,
+      primaryColor: Styles.backgroundColor,
+      accentColor: Styles.iconColor,
+    );
+  }
+  static iniTheme(){
+    themeData = themeLight();
   }
 
   static styleTitle(
