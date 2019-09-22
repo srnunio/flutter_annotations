@@ -1,19 +1,29 @@
 # Flutter Annotations
 
-## Flutter annotations is a notebook. | <img src="/icon.svg" width="80" height="80"> 
+<img src="/icon.svg" width="80" height="80">
+## Flutter annotations is a notebook.
 
 Sketchers, annotate ideas, and save information to reuse later is now easier with Flutter Annotations.
 
 ## Screenshots
 
-<img src="/screenshots/image1.png" width="240" height="480"> | 
-<img src="/screenshots/image2.png" width="240" height="480"> | 
-<img src="/screenshots/image3.png" width="240" height="480"> |
+<img src="/screenshots/theme1/image1.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image1.png" width="240" height="480">
 
-<img src="/screenshots/image5.png" width="240" height="480"> | 
-<img src="/screenshots/image6.png" width="240" height="480"> | 
-<img src="/screenshots/image7.png" width="240" height="480"> |
+<img src="/screenshots/theme1/image2.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image2.png" width="240" height="480">
 
-<img src="/screenshots/image4.png" width="240" height="480"> |
-<img src="/screenshots/image8.png" width="240" height="480"> |
+<img src="/screenshots/theme1/image3.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image3.png" width="240" height="480">
 
+<img src="/screenshots/theme1/image4.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image4.png" width="240" height="480">
+
+<img src="/screenshots/theme1/image5.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image5.png" width="240" height="480">
+
+<img src="/screenshots/theme1/image6.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image6.png" width="240" height="480">
+
+<img src="/screenshots/theme1/image7.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image7.png" width="240" height="480">

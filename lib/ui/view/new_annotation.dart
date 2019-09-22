@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_annotations/ui/widget/content_item.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:share/share.dart';
 
@@ -52,48 +53,9 @@ class _NewAnotation extends State<NewAnotation> {
     return Center(
       child: Container(
         child: CircularProgressIndicator(
-          valueColor:
-              AlwaysStoppedAnimation<Color>(colorParse(hexCode: COLOR_DEFAULT)),
+          valueColor: AlwaysStoppedAnimation<Color>(Styles.progressColor),
         ),
       ),
-    );
-  }
-
-  _ItemContent(Content content) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-            child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    '${weekday(content.modifiedAt)} - ${formatHora('${content.modifiedAt}')}',
-                    style: Styles.styleDescription(
-                        color: anotation.id_anotation > 0
-                            ? colorParse(hexCode: anotation.color)
-                            : Colors.black),
-                  ),
-
-                ],
-              ),
-            )
-          ],
-        )),
-      ],
     );
   }
 
@@ -102,67 +64,10 @@ class _NewAnotation extends State<NewAnotation> {
         itemCount: model.contents.length,
         itemBuilder: (BuildContext c, int i) {
           var content = model.contents[i];
-          return Container(
-            margin: EdgeInsets.all(16.0),
-
-              decoration: BoxDecoration(color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(5)),
-              child: Builder(builder: (context) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          flex: 6,
-                          child: _ItemContent(content),
-                        ),
-                        Expanded(
-                          child: FlatButton(
-                              child: SvgPicture.asset(
-                                'assets/icons/delete.svg',
-                                height: 18,
-                                width: 18,
-                                color: colorParse(hexCode: COLOR_DEFAULT),
-                              ),
-                              onPressed: () {
-                                model.deleteItem(i);
-                              }),
-                        ),
-                        Expanded(
-                          child: FlatButton(
-                              child: SvgPicture.asset(
-                                'assets/icons/send.svg',
-                                height: 18,
-                                width: 18,
-                                color: colorParse(hexCode: COLOR_DEFAULT),
-                              ),
-                              onPressed: () {
-                                final RenderBox box =
-                                    context.findRenderObject();
-                                Share.share(content.value,
-                                    sharePositionOrigin:
-                                        box.localToGlobal(Offset.zero) &
-                                            box.size);
-                              }),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(16.0),
-                      child:   Text(
-                        content.value,
-                        style: Styles.styleDescription(
-                            color: Colors.black, textSizeDescription: 18),
-                      ),
-                    ),
-
-                  ],
-                );
-              }));
+          return ContentItem(
+            content: content,
+            index: i,
+          );
         });
   }
 
@@ -170,7 +75,7 @@ class _NewAnotation extends State<NewAnotation> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 4.0),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: Styles.placeholderColor,
       ),
       child: SafeArea(
           child: Row(
@@ -222,7 +127,7 @@ class _NewAnotation extends State<NewAnotation> {
           IconButton(
               icon: Icon(
                 Icons.done,
-                color: isValues ? colorParse(hexCode: COLOR_DEFAULT) : null,
+                color: isValues ? Styles.iconColor : null,
               ),
               onPressed: isValues
                   ? () {
@@ -241,21 +146,19 @@ class _NewAnotation extends State<NewAnotation> {
 
   Widget home() {
     return BaseView<ContentModel>(
-        onModelReady: (model) {
+        onStartModel: (model) {
           model.init(anotation, context);
         },
         builder: (context, model, child) => Scaffold(
               body: Scaffold(
                 appBar: AppBar(
-                  iconTheme:
-                      IconThemeData(color: colorParse(hexCode: COLOR_DEFAULT)),
+                  iconTheme: IconThemeData(color: Styles.titleColor),
                   elevation: 0,
                   title: Text(
                     model.anotation.id_anotation > 0
                         ? model.anotation.title
                         : Translations.current.text('new_annotation'),
-                    style: Styles.styleTitle(
-                        color: colorParse(hexCode: COLOR_DEFAULT)),
+                    style: Styles.styleTitle(color: Styles.titleColor),
                   ),
                   actions: <Widget>[
                     model.anotation.id_anotation > 0
@@ -268,12 +171,12 @@ class _NewAnotation extends State<NewAnotation> {
                               'assets/icons/save.svg',
                               height: 24,
                               width: 24,
-                              color: colorParse(hexCode: COLOR_DEFAULT),
+                              color: Styles.titleColor,
                             ),
                           )
                   ],
                 ),
-                backgroundColor: Styles.backgroundColor,
+//                backgroundColor: Styles.backgroundColor,
                 bottomNavigationBar: _editor(model),
                 body: SafeArea(
                   child: model.state == ViewState.Busy
@@ -288,7 +191,6 @@ class _NewAnotation extends State<NewAnotation> {
 
   @override
   void initState() {
-    appBackgroud = Colors.transparent;
     super.initState();
   }
 

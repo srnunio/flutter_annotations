@@ -1,4 +1,3 @@
-
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -6,7 +5,7 @@ import '../core/data/preferences.dart';
 import '../core/model/domain/anotation.dart';
 import '../core/model/enums/view_state.dart';
 import '../locator.dart';
-import '../ui/widget/anotation_widget.dart';
+import '../ui/widget/annotation_item.dart';
 import '../utils/Translations.dart';
 import '../utils/constants.dart';
 import '../utils/styles.dart';
@@ -39,13 +38,12 @@ class AnotationModel extends BaseModel {
     return _context;
   }
 
-  void updateSortList(SortListing listing){
+  void updateSortList(SortListing listing) {
     Tools.updateSort(listing);
     read_items();
   }
 
-  void updateAvatarMode(LetterType letterType){
-
+  void updateAvatarMode(LetterType letterType) {
     Tools.updateLetterType(letterType);
     refresh();
   }
@@ -67,22 +65,20 @@ class AnotationModel extends BaseModel {
     setState(anotations.length > 0 ? ViewState.Idle : ViewState.Empty);
   }
 
-
   Future items() async {
     if (anotations == null) {
       this.anotations = List<Anotation>();
     }
     await Tools.onLetterType();
     var sort = await Tools.onSortListing();
-    var filter = sort == SortListing.CreatedAt ? 'createdAt desc' : 'modifiedAt desc ';
-    var query =
-        'select * from $DB_ANOTATION_TABLE_NAME order by ${filter} ';
+    var filter =
+        sort == SortListing.CreatedAt ? 'createdAt desc' : 'modifiedAt desc ';
+    var query = 'select * from $DB_ANOTATION_TABLE_NAME order by ${filter} ';
     List<Map> jsons = await this.database.rawQuery(query);
     anotations.clear();
     for (Map json in jsons) {
       var anotation = Anotation.fromJsonMap(json);
-      anotation.setContents(
-          await contentsAllAnotation(anotation.id_anotation));
+      anotation.setContents(await contentsAllAnotation(anotation.id_anotation));
       this.anotations.add(anotation);
     }
     await Future.delayed(Duration(seconds: 1));
@@ -107,9 +103,10 @@ class AnotationModel extends BaseModel {
         context: _context,
         builder: (BuildContext c) {
           return AlertDialog(
+            backgroundColor: Styles.placeholderColor,
             title: Text(
               anotation.title,
-              style: Styles.styleTitle(color: colorParse(hexCode: COLOR_DEFAULT)),
+              style: Styles.styleTitle(color: Styles.titleColor),
             ),
             actions: <Widget>[
               FlatButton(
@@ -119,7 +116,10 @@ class AnotationModel extends BaseModel {
                   },
                   child: Text(
                     Translations.current.text('no'),
-                    style: Styles.styleDescription(textSizeDescription: 16.0,color: Colors.red),
+                    style: Styles.styleDescription(
+                        fontWeight: FontWeight.bold,
+                        textSizeDescription: 16.0,
+                        color: Colors.red),
                   )),
               FlatButton(
                   onPressed: () {
@@ -128,16 +128,18 @@ class AnotationModel extends BaseModel {
                   },
                   child: Text(
                     Translations.current.text('yes'),
-                    style: Styles.styleDescription(textSizeDescription: 16.0,
-                        color: colorParse(hexCode: COLOR_DEFAULT)),
+                    style: Styles.styleDescription(
+                        fontWeight: FontWeight.bold,
+                        textSizeDescription: 16.0,
+                        color: Styles.titleColor),
                   )),
             ],
             content: Container(
               width: double.maxFinite,
               child: Text(
                 Translations.current.text('delete_anotation'),
-                style:
-                Styles.styleDescription(textSizeDescription: 16.0,color:Colors.black),
+                style: Styles.styleDescription(
+                    textSizeDescription: 16.0, color: Styles.subtitleColor),
               ),
             ),
           );
@@ -182,7 +184,6 @@ class AnotationModel extends BaseModel {
   }
 
   Future read_items() async {
-
     setState(ViewState.Busy);
     try {
       await items();
