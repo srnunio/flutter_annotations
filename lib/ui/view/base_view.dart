@@ -9,12 +9,10 @@ import '../../viewmodel/base_model.dart';
 
 class BaseView<T extends BaseModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget child) builder;
-  final Function(T) onModelReady;
-  final Function(T) onModelChanged;
-  final Function(T) onModelPaused;
+  final Function(T) onStartModel;
 
 
-  BaseView({this.builder, this.onModelReady,this.onModelChanged,this.onModelPaused});
+  BaseView({this.builder, this.onStartModel});
 
   @override
   _BaseViewState<T> createState() => _BaseViewState<T>();
@@ -25,66 +23,12 @@ class _BaseViewState<T extends BaseModel> extends StateWithLifecycle<BaseView<T>
 
   @override
   void onCreate() {
-    print('------ onCreate -------');
-    if (widget.onModelReady != null) {
-      widget.onModelReady(model);
+    if (widget.onStartModel != null) {
+      widget.onStartModel(model);
     }
     super.onCreate();
   }
 
-
-//  @override
-//  void didUpdateWidget(StatefulWidget oldWidget) {
-//    // TODO: implement didUpdateWidget
-//    if (widget.onModelResume != null) {
-//      widget.onModelResume(model);
-//    }
-//    super.didUpdateWidget(oldWidget);
-//  }
-//  @override
-//  void didChangeAppLifecycleState(AppLifecycleState state) {
-//    // TODO: implement didChangeAppLifecycleState
-//   print('didChangeAppLifecycleState ${state}');
-//   if (widget.onModelResume != null) {
-//     widget.onModelResume(model);
-//   }
-//    super.didChangeAppLifecycleState(state);
-//  }
-
-
-  @override
-  void deactivate() {
-    if (widget.onModelChanged != null) {
-      widget.onModelChanged(model);
-    }
-    super.deactivate();
-  }
-
-  @override
-  void onPause() {
-    if (widget.onModelPaused != null) {
-      widget.onModelPaused(model);
-    }
-    super.onPause();
-  }
-//  @override
-//  void initState() {
-//    if (widget.onModelReady != null) {
-//      widget.onModelReady(model);
-//    }
-//    super.initState();
-//  }
-
-
-
-//  @override
-//  void dispose() {
-//    // TODO: implement dispose
-//    if (widget.onModelCloser != null) {
-//      widget.onModelCloser(model);
-//    }
-//    super.dispose();
-//  }
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<T>(

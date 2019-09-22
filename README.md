@@ -7,13 +7,23 @@ Sketchers, annotate ideas, and save information to reuse later is now easier wit
 
 ## Screenshots
 
-<img src="/screenshots/image1.png" width="230" height="480" background="#000000"> |
-<img src="/screenshots/image2.png" width="270" height="480"> |
-<img src="/screenshots/image3.png" width="270" height="480"> |
+<img src="/screenshots/theme1/image1.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image1.png" width="240" height="480">
 
-<img src="/screenshots/image5.png" width="270" height="480"> |
-<img src="/screenshots/image6.png" width="270" height="480"> |
-<img src="/screenshots/image7.png" width="270" height="480"> |
+<img src="/screenshots/theme1/image2.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image2.png" width="240" height="480">
 
-<img src="/screenshots/image4.png" width="270" height="480"> |
-<img src="/screenshots/image8.png" width="270" height="480"> |
+<img src="/screenshots/theme1/image3.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image3.png" width="240" height="480">
+
+<img src="/screenshots/theme1/image4.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image4.png" width="240" height="480">
+
+<img src="/screenshots/theme1/image5.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image5.png" width="240" height="480">
+
+<img src="/screenshots/theme1/image6.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image6.png" width="240" height="480">
+
+<img src="/screenshots/theme1/image7.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image7.png" width="240" height="480">

@@ -10,6 +10,7 @@ import '../utils/Translations.dart';
 import '../utils/constants.dart';
 import '../utils/styles.dart';
 import '../utils/utils.dart';
+import 'anotation_model.dart';
 import 'base_model.dart';
 
 class ContentModel extends BaseModel {
@@ -32,6 +33,7 @@ class ContentModel extends BaseModel {
         context: _context,
         builder: (BuildContext c) {
           return AlertDialog(
+            backgroundColor: Styles.placeholderColor,
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
@@ -40,7 +42,7 @@ class ContentModel extends BaseModel {
                   },
                   child: Text(
                     Translations.current.text('no'),
-                    style: Styles.styleDescription(textSizeDescription: 16.0,color: Colors.red),
+                    style: Styles.styleDescription(fontWeight:FontWeight.bold,textSizeDescription: 16.0,color: Colors.red),
                   )),
               FlatButton(
                   onPressed: () {
@@ -49,8 +51,8 @@ class ContentModel extends BaseModel {
                   },
                   child: Text(
                     Translations.current.text('yes'),
-                    style: Styles.styleDescription(textSizeDescription: 16.0,
-                        color: colorParse(hexCode: COLOR_DEFAULT)),
+                    style: Styles.styleDescription(fontWeight:FontWeight.bold,textSizeDescription: 16.0,
+                        color: Styles.iconColor),
                   )),
             ],
             content: Container(
@@ -58,7 +60,7 @@ class ContentModel extends BaseModel {
               child: Text(
                 Translations.current.text('delete'),
                 style:
-                Styles.styleDescription(textSizeDescription: 16.0,color:Colors.black),
+                Styles.styleDescription(textSizeDescription: 16.0,color:Styles.titleColor),
               ),
             ),
           );
@@ -147,7 +149,8 @@ class ContentModel extends BaseModel {
         barrierDismissible: false,
         builder: (BuildContext c) {
           return AlertDialog(
-            title: Text(Translations.current.text('name_annotation')),
+            backgroundColor: Styles.placeholderColor,
+            title: Text(Translations.current.text('name_annotation'),style: Styles.styleDescription(fontWeight:FontWeight.bold,color: Styles.titleColor),),
             actions: <Widget>[
               FlatButton(
                   onPressed: () {
@@ -156,7 +159,7 @@ class ContentModel extends BaseModel {
                   },
                   child: Text(
                     Translations.current.text('cancel'),
-                    style: Styles.styleDescription(color: Colors.red),
+                    style: Styles.styleDescription(fontWeight:FontWeight.bold,color: Colors.red),
                   )),
               FlatButton(
                   onPressed: () {
@@ -174,7 +177,8 @@ class ContentModel extends BaseModel {
                   child: Text(
                     Translations.current.text('save'),
                     style: Styles.styleDescription(
-                        color: colorParse(hexCode: COLOR_DEFAULT)),
+                      fontWeight: FontWeight.bold,
+                        color: Styles.iconColor),
                   )),
             ],
             content: Container(
@@ -185,9 +189,8 @@ class ContentModel extends BaseModel {
                 keyboardType: TextInputType.text,
                 maxLines: 1,
                 decoration: InputDecoration(
-                    counterStyle: Styles.styleDescription(),
+                    counterStyle: Styles.styleDescription(color: Styles.titleColor),
                     filled: true,
-                    fillColor: Colors.transparent,
                     hintText: Translations.current.text('name_annotation')),
                 onChanged: (text) {
                   anotation.setTitle(text);
@@ -230,7 +233,8 @@ class ContentModel extends BaseModel {
                 );
                 messageToas(message: Translations.current.text(
                     'message_done_save_annotation'));
-               read_items();
+                locator.get<AnotationModel>().refresh();
+//               read_items();
               } else {
                 messageToas(message: Translations.current.text(
                     'message_error_save_annotation'));

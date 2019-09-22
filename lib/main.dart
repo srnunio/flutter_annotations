@@ -1,23 +1,19 @@
+import 'dart:async';
 import 'dart:io';
-import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
-import 'package:async/async.dart';
+import 'package:flutter_annotations/utils/styles.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:expandable/expandable.dart';
-
-import 'core/services/api.dart';
 import 'locator.dart';
 import 'ui/router.dart';
 import 'utils/Translations.dart';
-import 'utils/constants.dart';
-import 'utils/utils.dart';
 
+var blackMode = true;
 
 Future<Null> main() async {
+  Styles.iniTheme();
   await setupLocator();
   await Translations.load(Locale(await Platform.localeName));
-//  runApp(MyApp());
   runApp(HomeAnotations());
 }
 
@@ -27,7 +23,7 @@ class HomeAnotations extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       StreamProvider(
-      builder: (context) => locator<Api>().userController,
+      builder: (context) =>  StreamController(),
       child: MaterialApp(
         supportedLocales: [
           const Locale('pt', 'PT'),
@@ -53,12 +49,10 @@ class HomeAnotations extends StatelessWidget {
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
+          scaffoldBackgroundColor: Styles.backgroundColor,
           brightness: Brightness.light,
-          primaryColor: Colors.white,
-//          primaryColor: parseColor(COLOR_DEFAULT),
-          accentColor: colorParse(hexCode: COLOR_DEFAULT),
-//          accentColor: parseColor(OUTHER_COLOR_DEFAULT),
+          primaryColor: Styles.backgroundColor,
+          accentColor: Styles.iconColor,
         ),
         initialRoute: '/',
         onGenerateRoute: Router.generateRoute,

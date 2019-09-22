@@ -14,7 +14,7 @@ import '../../utils/styles.dart';
 import '../../utils/utils.dart';
 import '../../viewmodel/anotation_model.dart';
 import '../listeners/actions.dart';
-import '../widget/anotation_widget.dart';
+import '../widget/annotation_item.dart';
 import 'base_view.dart';
 
 class AnotetionView extends StatelessWidget implements ActionMoreListener {
@@ -82,7 +82,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      color: Colors.grey[200],
+                      color: Styles.placeholderColor,
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -94,8 +94,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                   Translations.current.text('sort'),
                                   style: Styles.styleDescription(
                                       textSizeDescription: 16,
-                                      color:
-                                      colorParse(hexCode: COLOR_DEFAULT)),
+                                      color:Styles.titleColor),
                                 ),
                               ),
                               expanded: Row(
@@ -142,7 +141,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                 width: 24,
                                 color: controller.expanded
                                     ? Colors.red[800]
-                                    : colorParse(hexCode: COLOR_DEFAULT),
+                                    : Styles.iconColor,
                               ),
                             ),
                           ),
@@ -165,7 +164,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
                       ),
-                      color: Colors.grey[200],
+                      color: Styles.placeholderColor,
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -176,7 +175,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                 child: Text(
                                   Translations.current.text('view_avatars'),
                                   style: Styles.styleDescription(
-                                    color: colorParse(hexCode: COLOR_DEFAULT),
+                                    color: Styles.titleColor,
                                     textSizeDescription: 16,
                                   ),
                                 ),
@@ -235,7 +234,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                 width: 24,
                                 color: controller.expanded
                                     ? Colors.red[800]
-                                    : colorParse(hexCode: COLOR_DEFAULT),
+                                    : Styles.iconColor,
                               ),
                             ),
                           ),
@@ -260,7 +259,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
         return Center(
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(
-                colorParse(hexCode: COLOR_DEFAULT)),
+                Styles.progressColor),
           ),
         );
       case ViewState.Empty:
@@ -272,7 +271,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
               children: <Widget>[
                 Text(
                   Translations.current.text('no_notes_found'),
-                  style: Styles.styleDescription(color: Colors.black),
+                  style: Styles.styleDescription(color: Styles.subtitleColor),
                 )
               ],
             ),
@@ -284,14 +283,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
   @override
   Widget build(BuildContext context) {
     return BaseView<AnotationModel>(
-      onModelChanged: (model) {
-        print('onModelChanged => ${model.actived()}');
-        if (!model.actived()) {
-          model.read_items();
-        }
-      },
-      onModelPaused: (model) => model.setActived(false),
-      onModelReady: (model) {
+      onStartModel: (model) {
         _model = model;
         model.init(context);
       },
@@ -299,6 +291,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
         _model = model;
         _model.setContext(context);
         return BackdropScaffold(
+
           actions: <Widget>[
             IconButton(
               onPressed: () {
@@ -308,13 +301,14 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                 'assets/icons/search.svg',
                 height: 24,
                 width: 24,
+                color: Styles.iconColor,
               ),
             ),
           ],
           title: Text(
             Translations.current.text('annotations'),
             textAlign: TextAlign.center,
-            style: Styles.styleTitle(color: colorParse(hexCode: COLOR_DEFAULT)),
+            style: Styles.styleTitle(color: Styles.titleColor),
           ),
           headerHeight: 600.0,
           backLayer: Container(
@@ -330,6 +324,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
             floatingActionButton: _builFloating(context),
           ),
           iconPosition: BackdropIconPosition.leading,
+
         );
       },
     );

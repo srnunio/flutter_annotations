@@ -86,6 +86,8 @@ flutter:
     - assets/icons/sliders.svg
     - assets/icons/delete.svg
     - assets/icons/sort.svg
+    - assets/icons/lock.svg
+    - assets/icons/unlock.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

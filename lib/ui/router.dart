@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 import '../core/model/domain/anotation.dart';
-import 'view/anotation_view.dart';
-import 'view/new_anotation.dart';
+import 'view/annotation_view.dart';
+import 'view/new_annotation.dart';
 import 'view/search_view.dart';
 
 class Router {

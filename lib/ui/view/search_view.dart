@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_annotations/utils/styles.dart';
 
 import '../../core/model/enums/view_state.dart';
 import '../../utils/Translations.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';
 import '../../viewmodel/anotation_model.dart';
-import '../widget/anotation_widget.dart';
+import '../widget/annotation_item.dart';
 import 'base_view.dart';
 
 class SearchPage extends StatefulWidget {
@@ -93,9 +94,9 @@ class _SearchPageState extends State<SearchPage>
       decoration: InputDecoration(
         hintText: hintText,
         border: InputBorder.none,
-        hintStyle:   TextStyle(color: colorParse(hexCode:COLOR_DEFAULT).withOpacity(0.5)),
+        hintStyle:   TextStyle(color:Styles.titleColor.withOpacity(0.5)),
       ),
-      style: TextStyle(color: colorParse(hexCode:COLOR_DEFAULT), fontSize: 16.0),
+      style: TextStyle(color: Styles.titleColor, fontSize: 16.0),
       onChanged: updateSearchQuery,
     );
   }
@@ -159,7 +160,7 @@ class SearchView extends StatelessWidget {
         return Center(
           child: CircularProgressIndicator(
             valueColor:
-                AlwaysStoppedAnimation<Color>(colorParse(hexCode:COLOR_DEFAULT)),
+                AlwaysStoppedAnimation<Color>(Styles.progressColor),
           ),
         );
       case ViewState.Idle:
@@ -196,7 +197,7 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<AnotationModel>(onModelReady: (model) {
+    return BaseView<AnotationModel>(onStartModel: (model) {
       model.initSearch(context);
       _searchModel = model;
     }, builder: (context, model, child) {
