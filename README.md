@@ -24,7 +24,7 @@ Sketchers, annotate ideas, and save information to reuse later is now easier wit
 <img src="/screenshots/theme2/image6.png" width="240" height="480">
 
 <img src="/screenshots/theme1/image6.png" width="240" height="480"> |
-<img src="/screenshots/theme2/image5.png" width="240" height="480">
+<img src="/screenshots/theme2/image4.png" width="240" height="480">
 
 <img src="/screenshots/theme1/image7.png" width="240" height="480"> |
 <img src="/screenshots/theme2/image7.png" width="240" height="480">
