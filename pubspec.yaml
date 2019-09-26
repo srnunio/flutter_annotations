@@ -29,8 +29,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   sqflite: ^1.1.6
-  get_it: ^1.0.3
-  provider: ^2.0.1
+#  get_it: ^1.0.3
+#  provider: ^2.0.1
   fluttertoast: ^3.1.0
   intl: ^0.15.8
   backdrop: ^0.1.8
@@ -41,6 +41,8 @@ dependencies:
   shared_preferences: ^0.4.2
   avatar_letter: ^1.0.0
   share: ^0.6.2+1
+  flutter_bloc: ^0.21.0
+  equatable: ^0.2.0
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +90,9 @@ flutter:
     - assets/icons/sort.svg
     - assets/icons/lock.svg
     - assets/icons/unlock.svg
+    - assets/icons/color.svg
+    - assets/icons/info.svg
+    - assets/icons/editor.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

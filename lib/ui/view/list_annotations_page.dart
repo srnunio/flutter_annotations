@@ -1,24 +1,104 @@
-
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:backdrop/backdrop.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_annotations/bloc/annotation_bloc.dart';
+import 'package:flutter_annotations/bloc/object_event.dart';
+import 'package:flutter_annotations/bloc/object_state.dart';
+import 'package:flutter_annotations/bloc/theme_bloc.dart';
+import 'package:flutter_annotations/core/data/preferences.dart';
+import 'package:flutter_annotations/core/listeners/actions.dart';
+import 'package:flutter_annotations/core/model/domain/anotation.dart';
+import 'package:flutter_annotations/ui/widget/annotation_item.dart';
+import 'package:flutter_annotations/utils/Translations.dart';
+import 'package:flutter_annotations/utils/constants.dart';
+import 'package:flutter_annotations/utils/styles.dart';
+import 'package:flutter_annotations/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../core/data/preferences.dart';
-import '../../core/model/domain/anotation.dart';
-import '../../core/model/enums/view_state.dart';
-import '../../utils/Translations.dart';
-import '../../utils/constants.dart';
-import '../../utils/styles.dart';
-import '../../utils/utils.dart';
-import '../../viewmodel/anotation_model.dart';
-import '../listeners/actions.dart';
-import '../widget/annotation_item.dart';
-import 'base_view.dart';
+class ListAnnotationPage extends StatelessWidget {
+  ThemeBloc themeBloc;
 
-class AnotetionView extends StatelessWidget implements ActionMoreListener {
-  AnotationModel _model;
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    themeBloc = BlocProvider.of<ThemeBloc>(context);
+    return BlocProvider<AnnotationBloc>(
+        builder: (context) => AnnotationBloc(),
+        child: BlocBuilder<AnnotationBloc, ObjectState>(
+            builder: (context, objectState) {
+          print('objectState ${objectState}');
+          return ListAnnotatioView(themeBloc);
+        }));
+  }
+}
+
+class ListAnnotatioView extends StatefulWidget {
+  final ThemeBloc themeBloc;
+
+  ListAnnotatioView(this.themeBloc);
+
+  @override
+  _ListAnnotatioView createState() => _ListAnnotatioView(themeBloc);
+}
+
+class _ListAnnotatioView extends State<ListAnnotatioView>
+    implements AnnotationMoreListener {
+  final ThemeBloc themeBloc;
+  AnnotationBloc _annotationBloc;
+
+  _ListAnnotatioView(this.themeBloc);
+
+  @override
+  void initState() {
+    _annotationBloc = BlocProvider.of<AnnotationBloc>(context);
+    super.initState();
+    _annotationBloc..dispatch(Run());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<AnnotationBloc>(
+        builder: (context) => _annotationBloc,
+        child: BlocBuilder<AnnotationBloc, ObjectState>(
+            builder: (context, objectState) {
+              if (objectState is ObjectRefresh) {
+                _annotationBloc.dispatch(Run());
+              }
+          print('_HomeAnnotationsPage:objectState ${objectState}');
+
+          return BackdropScaffold(
+            actions: <Widget>[
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/searchPage');
+                },
+                icon: SvgPicture.asset(
+                  'assets/icons/search.svg',
+                  height: 24,
+                  width: 24,
+                  color: Styles.iconColor,
+                ),
+              ),
+            ],
+            title: Text(
+              Translations.current.text('annotations'),
+              textAlign: TextAlign.center,
+              style: Styles.styleTitle(color: Styles.titleColor),
+            ),
+            headerHeight: 500.0,
+            backLayer: Container(
+              child: Center(
+                child: _buildMores(),
+              ),
+            ),
+            frontLayer: _home(),
+            iconPosition: BackdropIconPosition.leading,
+          );
+        }));
+  }
 
   _chipingSort(String text, SortListing listing) {
     if (Tools.sortListing == listing) {
@@ -68,7 +148,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
 
   _buildMores() {
     return Container(
-      margin: EdgeInsets.only(left: 10.0, top: 10.0, bottom: 10.0),
+      margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
       padding: const EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
@@ -94,7 +174,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                   Translations.current.text('sort'),
                                   style: Styles.styleDescription(
                                       textSizeDescription: 16,
-                                      color:Styles.titleColor),
+                                      color: Styles.titleColor),
                                 ),
                               ),
                               expanded: Row(
@@ -106,7 +186,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _model.updateSortList(
+                                        _annotationBloc.updateSortList(
                                             SortListing.CreatedAt);
                                       },
                                       child: _chipingSort(
@@ -116,7 +196,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _model.updateSortList(
+                                        _annotationBloc.updateSortList(
                                             SortListing.ModifiedAt);
                                       },
                                       child: _chipingSort(
@@ -189,7 +269,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _model.updateAvatarMode(
+                                        _annotationBloc.updateAvatarMode(
                                             LetterType.Circular);
                                       },
                                       child: _chipingLeeter(
@@ -199,7 +279,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _model.updateAvatarMode(
+                                        _annotationBloc.updateAvatarMode(
                                             LetterType.Rectangle);
                                       },
                                       child: _chipingLeeter(
@@ -209,7 +289,7 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                                   FlatButton(
                                       onPressed: () async {
                                         controller.toggle();
-                                        await _model
+                                        _annotationBloc
                                             .updateAvatarMode(LetterType.None);
                                       },
                                       child: _chipingLeeter(
@@ -243,150 +323,152 @@ class AnotetionView extends StatelessWidget implements ActionMoreListener {
                 ],
               );
             })),
-          )
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Material(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              color: Styles.placeholderColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      themeBloc.themeType == ThemeType.Light
+                          ? Translations.current.text('mode_dark_true')
+                          : Translations.current.text('mode_dark_false'),
+                      style: Styles.styleDescription(
+                        color: Styles.titleColor,
+                        textSizeDescription: 16,
+                      ),
+                    ),
+                    padding: EdgeInsets.only(left: 16.0),
+                  ),
+                  Switch(
+                      value:
+                          themeBloc.themeType == ThemeType.Light ? false : true,
+                      onChanged: (bool value) {
+                        themeBloc
+                            .dispatch(value ? ThemeType.Dark : ThemeType.Light);
+                      }),
+                ],
+              ))
         ],
       ),
     );
   }
 
-  Widget view(AnotationModel model, BuildContext context) {
-    switch (model.state) {
-      case ViewState.Refresh:
-        return anotationsUi(model);
-      case ViewState.Idle:
-        return anotationsUi(model);
-      case ViewState.Busy:
-        return Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(
-                Styles.progressColor),
-          ),
-        );
-      case ViewState.Empty:
-        return Center(
-          child: Container(
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
+  _home() {
+    return Scaffold(
+      body: BlocBuilder<AnnotationBloc, ObjectState>(
+        builder: (context, objectState) {
+          print('_home:objectState => ${objectState}');
+          if (objectState is ObjectRefresh) {
+            print('_homeAnnotations:objectState => ObjectRefresh');
+            _annotationBloc.dispatch(Run());
+            return progressWidget();
+          }
+          if (objectState is ObjectError) {
+            return Center(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    Translations.current
+                        .text('message_error_loading_annotation'),
+                    style: Styles.styleDescription(color: Styles.subtitleColor),
+                  ),
+                  FlatButton(
+                      onPressed: () {
+                        _annotationBloc.dispatch(Run());
+                      },
+                      child: Text(
+                        Translations.current.text('update'),
+                        style:
+                            Styles.styleDescription(color: Styles.titleColor),
+                      ))
+                ],
+              ),
+            );
+          }
+          if (objectState is ObjectLoaded) {
+            print('_homeAnnotations:objectState => ObjectLoaded');
+            var objectLoaded = (objectState as ObjectLoaded);
+            if (objectState.objects.isEmpty) {
+              return Center(
+                child: Text(
                   Translations.current.text('no_notes_found'),
                   style: Styles.styleDescription(color: Styles.subtitleColor),
-                )
-              ],
+                ),
+              );
+            }
+            print('_homeAnnotations:objectState => ListView');
+            return ListView.builder(
+                itemCount: objectLoaded.objects.length,
+                itemBuilder: (context, index) {
+                  var anotation = (objectLoaded.objects[index] as Annotation);
+                  return AnnotationItemUi(
+                    key: Key(anotation.title),
+                    position: index,
+                    anotation: anotation,
+                    actionMoreListener: this,
+                    onTap: () {
+                      Navigator.pushNamed(context, '/openAnnotation',
+                          arguments: anotation);
+                    },
+                  );
+                });
+          }
+
+          return progressWidget();
+        },
+      ),
+      floatingActionButton: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0),
+            child: FloatingActionButton(
+              child: SvgPicture.asset(
+                'assets/icons/add.svg',
+                height: 24,
+                width: 24,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/newAnotation');
+              },
             ),
           ),
-        );
-    }
+        ],
+      ),
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BaseView<AnotationModel>(
-      onStartModel: (model) {
-        _model = model;
-        model.init(context);
-      },
-      builder: (context, model, child) {
-        _model = model;
-        _model.setContext(context);
-        return BackdropScaffold(
-
-          actions: <Widget>[
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/searchPage');
-              },
-              icon: SvgPicture.asset(
-                'assets/icons/search.svg',
-                height: 24,
-                width: 24,
-                color: Styles.iconColor,
-              ),
-            ),
-          ],
-          title: Text(
-            Translations.current.text('annotations'),
-            textAlign: TextAlign.center,
-            style: Styles.styleTitle(color: Styles.titleColor),
-          ),
-          headerHeight: 600.0,
-          backLayer: Container(
-            child: Center(
-                child:_buildMores(),),
-          ),
-          frontLayer: Scaffold(
-            body: SafeArea(
-              child: Scaffold(
-                body: view(model, context),
-              ),
-            ),
-            floatingActionButton: _builFloating(context),
-          ),
-          iconPosition: BackdropIconPosition.leading,
-
-        );
-      },
-    );
-  }
-
-  _newAnotation(BuildContext context) {
-    Anotation anotation = Anotation();
-    Navigator.pushNamed(context, '/newAnotation', arguments: anotation);
-  }
-
-  FloatingActionButton _builFloating(BuildContext context) {
-    return FloatingActionButton(
-      child: SvgPicture.asset(
-        'assets/icons/add.svg',
-        height: 24,
-        width: 24,
-        color: Colors.white,
-      ),
-      backgroundColor: colorParse(hexCode: COLOR_DEFAULT),
-      onPressed: () {
-        _newAnotation(context);
-      },
-    );
-  }
-
-  Widget anotationsUi(AnotationModel model) {
-    return Container(
-        margin: EdgeInsets.only(top: 8.0),
-        child: ListView.builder(
-            itemCount: model.anotations.length,
-            itemBuilder: (context, index) {
-              var anotation = model.anotations[index];
-              return AnnotationItemUi(
-                key: Key(anotation.title),
-                position: index,
-                actionMoreListener: this,
-                anotation: anotation,
-                onTap: () {
-                  open(index);
-                },
-              );
-            }));
+  void dispose() {
+    super.dispose();
   }
 
   @override
   void deleteAnnotation(int position) {
-    print('deleteAnnotation:position ${position}');
-    _model.deleteItem(position);
+    _annotationBloc.deleteItemDialog(position, context);
   }
 
   @override
   void infoAnnotation(int position) {
-    _model.detailItem(position);
+    _annotationBloc.detailItem(position, context);
   }
 
   @override
   void openAnnotation(int position) {
-    open(position);
-  }
-
-  void open(int position) {
-    Navigator.pushNamed(_model.context(), '/newAnotation',
-        arguments: _model.anotations[position]);
+    var annotation =
+        (_annotationBloc.currentState as ObjectLoaded).objects[position];
+    Navigator.pushNamed(context, '/openAnnotation', arguments: annotation);
   }
 }

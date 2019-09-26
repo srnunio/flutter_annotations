@@ -1,39 +1,51 @@
 import 'dart:io';
 
-import 'package:avatar_letter/avatar_letter.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_annotations/bloc/object_event.dart';
+import 'package:flutter_annotations/bloc/object_state.dart';
+import 'package:flutter_annotations/bloc/search_bloc.dart';
+import 'package:flutter_annotations/core/model/domain/anotation.dart';
+import 'package:flutter_annotations/ui/widget/annotation_item.dart';
+import 'package:flutter_annotations/utils/Translations.dart';
 import 'package:flutter_annotations/utils/styles.dart';
+import 'package:flutter_annotations/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/model/enums/view_state.dart';
-import '../../utils/Translations.dart';
-import '../../utils/constants.dart';
-import '../../utils/utils.dart';
-import '../../viewmodel/anotation_model.dart';
-import '../widget/annotation_item.dart';
-import 'base_view.dart';
-
-class SearchPage extends StatefulWidget {
-  const SearchPage();
-
+class SearchAnnotationPage extends StatelessWidget {
   @override
-  _SearchPageState createState() => new _SearchPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider<SearchBloc>(
+        builder: (context) => SearchBloc(),
+        child: BlocBuilder<SearchBloc, ObjectState>(
+            builder: (context, objectState) {
+          print('objectState ${objectState}');
+          return SearchAnnotationView();
+        }));
+  }
 }
 
-class _SearchPageState extends State<SearchPage>
+class SearchAnnotationView extends StatefulWidget {
+  SearchAnnotationView();
+
+  @override
+  _SearchAnnotationView createState() => _SearchAnnotationView();
+}
+
+class _SearchAnnotationView extends State<SearchAnnotationView>
     with SingleTickerProviderStateMixin {
+  SearchBloc _searchBloc;
   static final GlobalKey<ScaffoldState> scaffoldKey =
       new GlobalKey<ScaffoldState>();
-
-  SearchView _searchView;
-
   TextEditingController _searchQuery;
   bool _isSearching = false;
-  String searchQuery = "Search query";
+  String searchQuery = "";
 
   @override
   void initState() {
-    _searchView = SearchView();
     super.initState();
+    _searchBloc = BlocProvider.of<SearchBloc>(context);
+    _searchBloc.dispatch(Run());
     _searchQuery = new TextEditingController();
     setState(() {
       _isSearching = true;
@@ -94,7 +106,7 @@ class _SearchPageState extends State<SearchPage>
       decoration: InputDecoration(
         hintText: hintText,
         border: InputBorder.none,
-        hintStyle:   TextStyle(color:Styles.titleColor.withOpacity(0.5)),
+        hintStyle: TextStyle(color: Styles.titleColor.withOpacity(0.5)),
       ),
       style: TextStyle(color: Styles.titleColor, fontSize: 16.0),
       onChanged: updateSearchQuery,
@@ -103,9 +115,9 @@ class _SearchPageState extends State<SearchPage>
 
   void updateSearchQuery(String newQuery) {
     setState(() {
-      _searchView.autoSearch(newQuery);
       searchQuery = newQuery;
     });
+    _searchBloc.updateQueryValue(newQuery);
     print("search query " + newQuery);
   }
 
@@ -135,78 +147,57 @@ class _SearchPageState extends State<SearchPage>
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
+
       key: scaffoldKey,
       appBar: new AppBar(
         leading: _isSearching ? const BackButton() : null,
         title: _isSearching ? _buildSearchField() : _buildTitle(context),
         actions: _buildActions(),
       ),
-      body: new Center(
-        child: _searchView,
+      body: BlocBuilder<SearchBloc, ObjectState>(
+        builder: (context, objectState) {
+          print('_home:objectState => ${objectState}');
+
+          if (objectState is ObjectLoaded) {
+            var objectLoaded = (objectState as ObjectLoaded);
+            if (objectState.objects.isEmpty) {
+              return Center(
+                child: Text(
+                  '${Translations.current.text('no_notes_found')} {${searchQuery}}',
+                  style: Styles.styleDescription(color: Styles.subtitleColor),
+                ),
+              );
+            }
+            return Container(
+              margin: EdgeInsets.only(top: 16.0),
+              child:  ListView.builder(
+                  itemCount: objectLoaded.objects.length,
+                  itemBuilder: (context, index) {
+                    var anotation = (objectLoaded.objects[index] as Annotation);
+                    return ASearchItem(
+                      key: Key('${anotation.title}'),
+                      anotation: anotation,
+                      onTap: () {
+                        Navigator.pushNamed(context, '/openAnnotation',
+                            arguments: (objectLoaded.objects[index] as Annotation));
+                      },
+                    );
+                  }),
+            );
+          }
+
+          return Center(
+            child: Text(
+                '${Translations.current.text('no_notes_found')} {${searchQuery}}'),
+          );
+        },
       ),
     );
   }
-}
-
-class SearchView extends StatelessWidget {
-  AnotationModel _searchModel;
-  String valueSearch = '';
-
-  _build(AnotationModel model) {
-//    _searchModel = model;
-    switch (model.state) {
-      case ViewState.Busy:
-        return Center(
-          child: CircularProgressIndicator(
-            valueColor:
-                AlwaysStoppedAnimation<Color>(Styles.progressColor),
-          ),
-        );
-      case ViewState.Idle:
-        return Container(
-            margin: EdgeInsets.only(top: 8.0),
-            child: ListView.builder(
-                itemCount: model.anotations.length,
-                itemBuilder: (context, index) {
-                  var anotation = model.anotations[index];
-                  return ASearchItem(
-                    key: Key('${anotation.title}'),
-                    anotation: anotation,
-                    onTap: () {
-                      Navigator.pushNamed(
-                          _searchModel.context(), '/newAnotation',
-                          arguments: _searchModel.anotations[index]);
-                    },
-                  );
-                }));
-      case ViewState.Refresh:
-      case ViewState.Empty:
-        return Center(
-          child: Text('${Translations.current.text('no_notes_found')} {${valueSearch}}'),
-        );
-    }
-  }
-
-  void autoSearch(String value) {
-    valueSearch = value;
-    if(value.isEmpty)
-      return;
-    _searchModel.search(value);
-  }
 
   @override
-  Widget build(BuildContext context) {
-    return BaseView<AnotationModel>(onStartModel: (model) {
-      model.initSearch(context);
-      _searchModel = model;
-    }, builder: (context, model, child) {
-      return Scaffold(
-        body: SafeArea(
-            child: Container(
-          child: _build(model),
-        )),
-      );
-    });
+  void dispose() {
+    super.dispose();
   }
 }

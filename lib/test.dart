@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Anotation _anotation = Anotation(
+  Annotation _anotation = Annotation(
       id_anotation: 1,
       title: 'Flutter Design',
       color: '${coloRandom()}',

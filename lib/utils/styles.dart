@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_annotations/core/data/preferences.dart';
 import 'package:flutter_annotations/utils/constants.dart';
 import 'package:flutter_annotations/utils/utils.dart';
 
@@ -30,10 +31,11 @@ class Styles {
     backgroundColor = colorParse(hexCode: '#1D2026');
     placeholderColor = colorParse(hexCode: '#323640');
     return ThemeData(
-      scaffoldBackgroundColor: Styles.backgroundColor,
-      brightness: Brightness.light,
-      primaryColor: Styles.backgroundColor,
-      accentColor: Styles.iconColor,
+      scaffoldBackgroundColor: backgroundColor,
+      brightness: Brightness.dark,
+      primaryColor: backgroundColor,
+      accentColor: progressColor,
+      indicatorColor: progressColor,
     );
   }
 
@@ -45,15 +47,16 @@ class Styles {
     backgroundColor = colorParse(hexCode: '#ffffff');
     placeholderColor = Colors.grey[200];
     return ThemeData(
-      scaffoldBackgroundColor: Styles.backgroundColor,
+      scaffoldBackgroundColor: backgroundColor,
       brightness: Brightness.light,
-      primaryColor: Styles.backgroundColor,
-      accentColor: Styles.iconColor,
+      primaryColor: backgroundColor,
+      accentColor: progressColor,
     );
   }
-  static iniTheme(){
-    themeData = themeLight();
-  }
+//  static iniTheme({ThemeType themeType = ThemeType.Light}){
+//    themeType =  Tools.onThemeType();
+//    themeData = themeType == ThemeType.Light ? themeLight() : themeDark();
+//  }
 
   static styleTitle(
           {Color color,

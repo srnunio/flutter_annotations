@@ -1,16 +1,19 @@
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_annotations/utils/styles.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:random_color/random_color.dart';
 import 'Translations.dart';
 
-String formatDate(String value,{bool format = false}) {
+String formatDate(String value, {bool format = false}) {
   var now = DateTime.parse(value);
-  var formatter =
-      DateFormat(format?'dd': 'dd.MM.yyyy', Translations.current.locale.languageCode);
-  return format ? '${formatter.format(now) } ${_weekday(now)}': formatter.format(now);
+  var formatter = DateFormat(
+      format ? 'dd' : 'dd.MM.yyyy', Translations.current.locale.languageCode);
+  return format
+      ? '${formatter.format(now)} ${_weekday(now)}'
+      : formatter.format(now);
 }
 
 void messageToas({String message}) {
@@ -24,10 +27,11 @@ void messageToas({String message}) {
       fontSize: 16.0);
 }
 
-String _weekday(DateTime dateTime){
+String _weekday(DateTime dateTime) {
   var day = weekday(dateTime);
-  return day.length > 3 ? day.substring(0,3) : day;
+  return day.length > 3 ? day.substring(0, 3) : day;
 }
+
 String weekday(DateTime dateTime) {
   switch (dateTime.weekday) {
     case 1:
@@ -47,7 +51,6 @@ String weekday(DateTime dateTime) {
   }
 }
 
-
 String coloRandom() {
   RandomColor _randomColor = RandomColor();
   Color _color = _randomColor.randomColor();
@@ -56,15 +59,17 @@ String coloRandom() {
 //  int limit = COLORS_LIST.length;
 //  String color = COLORS_LIST.toList()[random.nextInt(limit)];
 //  return color;
-
 }
+
 String runeSubstring({String input, int start, int end}) {
   return String.fromCharCodes(input.runes.toList().sublist(start, end));
 }
+
 String formatText({String value}) {
   return String.fromCharCodes(value.runes.toList());
 }
-String letter({String value }) {
+
+String letter({String value}) {
   try {
 //    value = String.fromCharCode(value.runes.first);
 //    var array = value.toString().trim().split(' ');
@@ -72,10 +77,17 @@ String letter({String value }) {
 //    if (array != null && array.length > 1) {
 //      return runeSubstring(input: array[0],start: 0,end: 1);
 //    }
-    return'${runeSubstring(input: value,start: 0,end: value.length)}';
+    return '${runeSubstring(input: value, start: 0, end: value.length)}';
 //    return numLetter > 1 ? '${value[0]}${value[1]}' : value[0];
-  }catch(  ex){}
+  } catch (ex) {}
   return '?';
+}
+
+progressWidget() {
+  return Center(
+      child: CircularProgressIndicator(
+
+      ));
 }
 
 //
@@ -85,9 +97,8 @@ String formatHora(String value) {
   return formatter.format(now);
 }
 
-Color parseColor({String hexCode}) {
-  
-}
+Color parseColor({String hexCode}) {}
+
 Color colorParse({String hexCode}) {
   String hex = hexCode.replaceAll("#", "");
   if (hex.isEmpty) hex = "ffffff";

@@ -11,8 +11,7 @@ const DB_ANOTATION_TABLE_CONTENT = 'content';
 
 const SCRIPT_ANOTATION = '''CREATE TABLE $DB_ANOTATION_TABLE_NAME (
     "id_anotation"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-        "title"	VARCHAR(80) NOT NULL UNIQUE,
-        "description"	TEXT,
+        "title"	VARCHAR(80) NOT NULL UNIQUE, 
         "color"	TEXT NOT NULL,
         "createdAt"	INTEGER NOT NULL,
         "modifiedAt"	INTEGER NOT NULL
@@ -22,8 +21,7 @@ var SCRIPT_CONTENT = '''CREATE TABLE $DB_ANOTATION_TABLE_CONTENT (
         "id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         "value"	TEXT NOT NULL,
         "createdAt"	INTEGER NOT NULL,
-        "modifiedAt"	INTEGER NOT NULL,
-        "type_content"	INTEGER NOT NULL,
+        "modifiedAt"	INTEGER NOT NULL, 
         "id_anotation"	INTEGER NOT NULL,
         FOREIGN KEY("id_anotation") REFERENCES "anotation"("id_anotation")
 )''';
