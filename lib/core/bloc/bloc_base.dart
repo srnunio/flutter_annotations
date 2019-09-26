@@ -72,19 +72,23 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
 
   Future<int> insertContentDb(Annotation anotation, Content content) async {
     int result = -1;
-    await this.database.transaction((Transaction t) async {
-      result = await t.rawInsert(
-          '''insert into $DB_ANOTATION_TABLE_CONTENT (value,createdAt,modifiedAt,id_anotation) values (
+    try {
+      await this.database.transaction((Transaction t) async {
+        result = await t.rawInsert(
+            '''insert into $DB_ANOTATION_TABLE_CONTENT (value,createdAt,modifiedAt,id_anotation) values (
               "${content.value}", 
               "${content.createdAt.millisecondsSinceEpoch}",
               "${content.modifiedAt.millisecondsSinceEpoch}",
               "${content.id_anotation}")
           ''');
-      if (result > 0) {
-        insertOrUpadateDb(anotation);
-      }
-    });
-    print('insert: ${result}');
+        if (result > 0) {
+          insertOrUpadateDb(anotation);
+        }
+      });
+      print('insert: ${result}');
+    }catch(ex){
+      print('insertContentDb ${ex.toString()}');
+    }
     return result;
   }
 
