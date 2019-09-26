@@ -24,6 +24,8 @@
   "message_delete_error_anotation":"Failed to delete this note",
   "message_done_save_annotation": "Saved note",
   "message_error_save_annotation": "Failed to save note",
+  "message_error_loading_annotation": "Error loading notes",
+  "message_error_loading_context": "Error loading content",
   "message_alert_exist_annotation": "There is already a note with this name",
   "message_alert_name_annotation": "Write a name for this note",
   "view_notes": "View notes",
@@ -36,5 +38,10 @@
   "sort_type_1": "Creation Date",
   "sort_type_2": "Update Date",
   "detail": "Details",
+  "mode_dark_true": "Activate dark mode",
+  "mode_dark_false": "Disable dark mode",
+  "title_alert": "This note already has a title",
+  "update": "Update",
+  "copy_test": "Copied text",
   "cancel": "Cancel"
 }

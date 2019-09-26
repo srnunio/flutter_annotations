@@ -1,4 +1,4 @@
-package com.anotacoes
+package com.flutter_annotations
 
 import android.os.Bundle
 

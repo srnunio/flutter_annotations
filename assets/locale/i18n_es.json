@@ -24,6 +24,8 @@
   "message_delete_error_anotation":"Error al eliminar esta nota",
   "message_done_save_annotation": "Nota guardada",
   "message_error_save_annotation": "Error al guardar anotación",
+  "message_error_loading_annotation": "Error al cargar notes",
+  "message_error_loading_context": "Error al cargar contenido",
   "message_alert_exist_annotation": "Ya hay una nota con este nombre",
   "message_alert_name_annotation": "Escribir un nombre para esta nota",
   "view_notes": "Ver notas",
@@ -36,5 +38,10 @@
   "sort_type_1": "Fecha de creación",
   "sort_type_2": "Fecha de actualizacíon",
   "detail": "Detalles",
+  "mode_dark_true": "Activar el modo oscuro",
+  "mode_dark_false": "Desactivar el modo oscuro",
+  "title_alert": "Esta nota ya tiene un título",
+  "update": "Actualización",
+  "copy_test": "Texto copiado",
   "cancel": "Cancelar"
 }

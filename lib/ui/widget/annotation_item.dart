@@ -1,20 +1,20 @@
 import 'package:avatar_letter/avatar_letter.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_annotations/core/listeners/actions.dart';
 import 'package:flutter_annotations/utils/Translations.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../core/data/preferences.dart';
 import '../../core/model/domain/anotation.dart';
-import '../../utils/constants.dart';
 import '../../utils/styles.dart';
 import '../../utils/utils.dart';
-import '../listeners/actions.dart';
 
 class AnnotationDetail extends StatelessWidget {
-  Anotation _anotation;
+  Annotation _anotation;
 
-  AnnotationDetail({Anotation anotation}) {
+  AnnotationDetail({Annotation anotation}) {
     this._anotation = anotation;
   }
 
@@ -167,10 +167,10 @@ class AnnotationDetail extends StatelessWidget {
 }
 
 class ASearchItem extends StatelessWidget {
-  Anotation _anotation;
+  Annotation _anotation;
   Function _onTap;
 
-  ASearchItem({Key key, Anotation anotation, Function onTap})
+  ASearchItem({Key key, Annotation anotation, Function onTap})
       : super(key: key) {
     this._anotation = anotation;
     this._onTap = onTap;
@@ -214,18 +214,19 @@ class ASearchItem extends StatelessWidget {
 }
 
 class AnnotationItemUi extends StatelessWidget {
-  Anotation _anotation;
+  Annotation _anotation;
   ExpandableController controller;
   Function _onTap;
-  ActionMoreListener _actionMoreListener;
-  ActionMoreListener _actionMoreListenerAux;
+  AnnotationMoreListener _actionMoreListener;
+  AnnotationMoreListener _actionMoreListenerAux;
   int position;
+
 
   AnnotationItemUi(
       {Key key,
       int position,
-      ActionMoreListener actionMoreListener,
-      Anotation anotation,
+      AnnotationMoreListener actionMoreListener,
+      Annotation anotation,
       Function onTap})
       : super(key: key) {
     this._anotation = anotation;
@@ -237,7 +238,7 @@ class AnnotationItemUi extends StatelessWidget {
   _Text() {
     if (_anotation.getNumContents() > 0) {
       return Text(
-        _anotation.contents[0].value,
+        '${_anotation.contents[0].value}',
         maxLines: 2,
       );
     }
@@ -245,7 +246,7 @@ class AnnotationItemUi extends StatelessWidget {
   }
 
   _ItemCollapsed() {
-    print('AnnotationItemUi:ItemCollapsed ${Tools.letterType}');
+//    print('AnnotationItemUi:ItemCollapsed ${Tools.letterType}');
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,6 +305,7 @@ class AnnotationItemUi extends StatelessWidget {
                           ),
                           Text(
                             '${_anotation.title}',
+                            maxLines: 2,
                             style: Styles.styleTitle(
                                 color: Styles.titleColor,
                                 fontWeight: FontWeight.bold),
@@ -390,6 +392,9 @@ class AnnotationItemUi extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _onTap,
+      onLongPress: (){
+        Clipboard.setData(ClipboardData(text: _anotation.title));
+      },
       child: ExpandableNotifier(
         child: Container(
             padding: const EdgeInsets.only(left: 16, right: 10, bottom: 10),

@@ -25,6 +25,8 @@
   "message_delete_error_anotation":"Falha ao eliminar",
   "message_done_save_annotation": "Anotação guardada",
   "message_error_save_annotation": "Falha ao salvar anotação",
+  "message_error_loading_annotation": "Erro ao carregar as anotações",
+  "message_error_loading_context": "Erro ao carregar o conteúdo desta anotação",
   "message_alert_exist_annotation": "Ja existe uma anotação com este nome",
   "message_alert_name_annotation": "Escreva um nome para esta anotação",
   "sort": "Ordenar listagem",
@@ -34,10 +36,14 @@
   "avatar_type_1": "Avatar 1",
   "avatar_type_2": "Avatar 2",
   "avatar_type_3": "Avatar 3",
-
   "sort_type_1": "Data de criação",
   "sort_type_2": "Data de actualização",
   "detail": "Detalhes",
+  "mode_dark_true": "Activar modo escuro",
+  "mode_dark_false": "Desactivar modo escuro",
+  "title_alert": "Esta anotação ja tem um título",
+  "update": "Actualizar",
+  "copy_test": "Texto copiado",
   "cancel": "Cancelar"
 
 
