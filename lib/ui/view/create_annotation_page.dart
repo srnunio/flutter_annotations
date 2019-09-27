@@ -84,7 +84,7 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
       IconButton(
         padding: EdgeInsets.all(0.0),
         onPressed: () {
-          _contentAnnotationBloc.saveAnnotationDialog(context);
+          _contentAnnotationBloc.settingsDialog(context);
         },
         icon: SvgPicture.asset(
           'assets/icons/sliders.svg',
@@ -101,11 +101,11 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
       IconButton(
         padding: EdgeInsets.all(0.0),
         onPressed: () async {
-          _contentAnnotationBloc.saveAnnotationDialog(context);
-//          if (result) {
-//            print('result => ${result}');
-//            _annotationBloc.dispatch(Refresh());
-//          }
+         var result = await  _contentAnnotationBloc.saveAnnotationDialog(context);
+          if (result) {
+            print('result => ${result}');
+            _contentAnnotationBloc.update = true;
+          }
         },
         icon: SvgPicture.asset(
           'assets/icons/save.svg',

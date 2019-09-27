@@ -28,6 +28,7 @@
   "message_error_loading_context": "Error loading content",
   "message_alert_exist_annotation": "There is already a note with this name",
   "message_alert_name_annotation": "Write a name for this note",
+  "error_update": "Failed to update",
   "view_notes": "View notes",
   "sort": "Sort listing",
   "view_avatars": "View avatar",
@@ -43,5 +44,9 @@
   "title_alert": "This note already has a title",
   "update": "Update",
   "copy_test": "Copied text",
+  "rename": "Rename",
+  "change_color": "Change Color",
+  "options": "Options",
+  "color_changed": "Color changed",
   "cancel": "Cancel"
 }

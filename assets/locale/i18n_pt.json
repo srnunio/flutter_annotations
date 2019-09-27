@@ -29,6 +29,7 @@
   "message_error_loading_context": "Erro ao carregar o conteúdo desta anotação",
   "message_alert_exist_annotation": "Ja existe uma anotação com este nome",
   "message_alert_name_annotation": "Escreva um nome para esta anotação",
+  "error_update": "Falha ao actualizar",
   "sort": "Ordenar listagem",
   "view_notes": "Visualizar anotações",
   "view_avatars": "Visualizar avatar",
@@ -44,6 +45,10 @@
   "title_alert": "Esta anotação ja tem um título",
   "update": "Actualizar",
   "copy_test": "Texto copiado",
+  "rename": "Renomear",
+  "change_color": "Mudar Cor",
+  "options": "Opções",
+  "color_changed": "Cor alterada",
   "cancel": "Cancelar"
 
 

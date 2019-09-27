@@ -2,7 +2,12 @@
 
 import '../../../utils/constants.dart';
 import 'content.dart';
-
+abstract class AnnotationColumn{
+  static const TITLE = 'title';
+  static const COLOR = 'color';
+  static const CREATED_AT = 'createdAt';
+  static const MODIFIED_AT = 'modifiedAt';
+}
 class Annotation {
   final int id_anotation;
   String title;

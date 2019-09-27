@@ -60,6 +60,14 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
   }
 
   @override
+  void deactivate() {
+    if(_annotationBloc.update){
+      _annotationBloc.dispatch(Run());
+    }
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider<AnnotationBloc>(
         builder: (context) => _annotationBloc,
@@ -397,7 +405,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
             );
           }
           if (objectState is ObjectLoaded) {
-            print('_homeAnnotations:objectState => ObjectLoaded');
+//            print('_homeAnnotations:objectState => ObjectLoaded');
             var objectLoaded = (objectState as ObjectLoaded);
             if (objectState.objects.isEmpty) {
               return Center(
@@ -407,11 +415,12 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                 ),
               );
             }
-            print('_homeAnnotations:objectState => ListView');
+//            print('_homeAnnotations:objectState => ListView');
             return ListView.builder(
                 itemCount: objectLoaded.objects.length,
                 itemBuilder: (context, index) {
                   var anotation = (objectLoaded.objects[index] as Annotation);
+                  print('anotation.color: ${anotation.color}');
                   return AnnotationItemUi(
                     key: Key(anotation.title),
                     position: index,

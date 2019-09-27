@@ -12,7 +12,7 @@ import 'package:bloc/bloc.dart';
 
 abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
   Database database;
-
+  bool update = false;
   initDB() async {
     final dbFolder = await getDatabasesPath();
     if (!await Directory(dbFolder).exists()) {
@@ -29,28 +29,30 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
   Future<List<Content>> contentsAllAnotation(int id) async {
     List<Content> contents = [];
     try {
-      String query =  'select * from $DB_ANOTATION_TABLE_CONTENT where id_anotation = ${id} order by id desc';
+      String query =
+          'select * from $DB_ANOTATION_TABLE_CONTENT where id_anotation = ${id} order by id desc';
       print('contentsAllAnotation|query : ${query}');
       List<Map> jsons = await this.database.rawQuery(query);
-       contents = jsons.map((json) => Content.fromJsonMap(json)).toList();
-    }catch(ex){
+      contents = jsons.map((json) => Content.fromJsonMap(json)).toList();
+    } catch (ex) {
       print('contentsAllAnotation => ${ex.toString()}');
     }
     return contents != null ? contents : List<Content>();
   }
 
-  Future<bool> existAnnotationDb(int id) async {
+  Future<bool> existAnnotationDb(String title) async {
     var query =
-        'select * from $DB_ANOTATION_TABLE_NAME where id_anotation = ${id}';
+        'select * from $DB_ANOTATION_TABLE_NAME where title = ${"'${title}'"}';
     List<Map> jsons = await this.database.rawQuery(query);
     return jsons != null && jsons.length > 0 ? true : false;
   }
 
-  Future<int> insertOrUpadateDb(Annotation anotation) async {
+  Future<int> insertOrUpadateDb(Annotation anotation ,{String column = ''}) async {
     int result = -1;
+    print('insertOrUpadate:column ${column}');
     try {
       if (anotation.id_anotation > 0) {
-        result = await updateAnotationDb(anotation);
+        result = await updateAnotationDb(anotation,column:column);
       } else {
         result = await insertAnotationDb(anotation);
       }
@@ -86,7 +88,7 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
         }
       });
       print('insert: ${result}');
-    }catch(ex){
+    } catch (ex) {
       print('insertContentDb ${ex.toString()}');
     }
     return result;
@@ -94,26 +96,36 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
 
   Future<int> insertAnotationDb(Annotation anotation) async {
     int result = -1;
-    await this.database.transaction((Transaction t) async {
-      result = await t.rawInsert(
-          '''insert into $DB_ANOTATION_TABLE_NAME (title,color,createdAt,modifiedAt) values (
+    var query =  '''insert into $DB_ANOTATION_TABLE_NAME (title,color,createdAt,modifiedAt) values (
               "${anotation.title}",
               "${anotation.color}",
               "${anotation.createdAt.millisecondsSinceEpoch}",
               "${anotation.modifiedAt.millisecondsSinceEpoch}")
-          ''');
+          ''';
+    await this.database.transaction((Transaction t) async {
+      result = await t.rawInsert(query);
     });
+    print('query: ${query}');
     print('insert: ${result}');
     return result;
   }
 
-  Future<int> updateAnotationDb(Annotation anotation) async {
+
+  Future<int> updateAnotationDb(Annotation anotation, {String column = ''}) async {
     int result = -1;
+
+    var query = '';
+    if(column.contains(AnnotationColumn.TITLE)){
+      query = anotation.title;
+    }else  if(column.contains(AnnotationColumn.COLOR)){
+      query = anotation.color;
+    }
+    column = column.length > 0 ? ', ${column} = ?' : '';
     await this.database.transaction((Transaction t) async {
-      result = await t.rawInsert(
-          '''update  $DB_ANOTATION_TABLE_NAME set modifiedAt = ${DateTime.now().millisecondsSinceEpoch}
-             where id_anotation = ${anotation.id_anotation}''');
+      result = await t.rawUpdate('UPDATE $DB_ANOTATION_TABLE_NAME SET modifiedAt = ? ${column} WHERE id_anotation = ?',
+          ['${DateTime.now().millisecondsSinceEpoch}', '${query}', '${anotation.id_anotation}']);
     });
+    print('query = : ${query}');
     print('updateAnotation: ${result}');
     return result;
   }

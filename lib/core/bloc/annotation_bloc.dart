@@ -14,6 +14,8 @@ import 'object_event.dart';
 import 'object_state.dart';
 
 class AnnotationBloc extends AnnotationBase {
+
+
   @override
   get initialState => ObjectUninitialized();
 
@@ -185,16 +187,19 @@ class AnnotationBloc extends AnnotationBase {
       try {
         if (currentState is ObjectUninitialized) {
           var annotations = await _readAnnotations();
+          update = false;
           yield ObjectLoaded(objects: annotations, hasReachedMax: false);
           return;
         }
         if (currentState is ObjectLoaded) {
           var annotations = await _readAnnotations();
+          update = false;
           yield annotations.isEmpty
               ? (currentState as ObjectLoaded).copyWith(hasReachedMax: true)
               : ObjectLoaded(objects: annotations, hasReachedMax: false);
         }
       } catch (_) {
+        update = false;
         yield ObjectError();
       }
     } else if (event is Reload) {
@@ -202,8 +207,10 @@ class AnnotationBloc extends AnnotationBase {
           .objects
           .sublist(0, (currentState as ObjectLoaded).objects.length);
       (currentState as ObjectLoaded).objects.clear();
+      update = false;
       yield ObjectLoaded(objects: newList, hasReachedMax: false);
     } else if (event is Refresh) {
+      update = false;
       yield ObjectRefresh();
     }
   }
