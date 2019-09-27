@@ -2,10 +2,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_annotations/bloc/annotation_bloc.dart';
-import 'package:flutter_annotations/bloc/content_bloc.dart';
-import 'package:flutter_annotations/bloc/object_event.dart';
-import 'package:flutter_annotations/bloc/object_state.dart';
+import 'package:flutter_annotations/core/bloc/annotation_bloc.dart';
+import 'package:flutter_annotations/core/bloc/content_bloc.dart';
+import 'package:flutter_annotations/core/bloc/object_event.dart';
+import 'package:flutter_annotations/core/bloc/object_state.dart';
 import 'package:flutter_annotations/core/listeners/actions.dart';
 import 'package:flutter_annotations/core/model/domain/anotation.dart';
 import 'package:flutter_annotations/core/model/domain/content.dart';
@@ -39,19 +39,6 @@ class CreatedAnnotationPage extends StatelessWidget {
         builder: (BuildContext context) => ContentAnnotationBloc(_anotation),
       ),
     ], child: CreatedAnnotationView(_anotation));
-//    return BlocProvider<AnnotationBloc>(
-//        builder: (context) => AnnotationBloc(),
-//        child: BlocBuilder<AnnotationBloc, ObjectState>(
-//            builder: (context, objectState) {
-//          return
-//            BlocProvider<ContentAnnotationBloc>(
-//                builder: (context) => ContentAnnotationBloc(_anotation),
-//                child: BlocBuilder<ContentAnnotationBloc, ObjectState>(
-//                    builder: (context, objectState) {
-//                      print('objectState ${objectState}');
-//                      return CreatedAnnotationPage(_anotation);
-//                    }));
-//        }));
   }
 }
 
@@ -71,7 +58,7 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
   bool isValues = false;
   final TextEditingController _textEditingController = TextEditingController();
   ContentAnnotationBloc _contentAnnotationBloc;
-  AnnotationBloc _annotationBloc;
+//  AnnotationBloc _annotationBloc;
 
   _CreatedAnnotationView(this._anotation);
 
@@ -79,7 +66,7 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
   void initState() {
     super.initState();
     _contentAnnotationBloc = BlocProvider.of<ContentAnnotationBloc>(context);
-    _annotationBloc = BlocProvider.of<AnnotationBloc>(context);
+//    _annotationBloc = BlocProvider.of<AnnotationBloc>(context);
     _contentAnnotationBloc..dispatch(Run());
   }
 
@@ -114,13 +101,11 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
       IconButton(
         padding: EdgeInsets.all(0.0),
         onPressed: () async {
-          var result =
-              await _contentAnnotationBloc.saveAnnotationDialog(context);
-
-          if (result) {
-            print('result => ${result}');
-            _annotationBloc.dispatch(Refresh());
-          }
+          _contentAnnotationBloc.saveAnnotationDialog(context);
+//          if (result) {
+//            print('result => ${result}');
+//            _annotationBloc.dispatch(Refresh());
+//          }
         },
         icon: SvgPicture.asset(
           'assets/icons/save.svg',
@@ -149,7 +134,6 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
               : _buidSave()),
       body: BlocBuilder<ContentAnnotationBloc, ObjectState>(
         builder: (context, objectState) {
-          print('_home:objectState => ${objectState}');
           if (objectState is ObjectError) {
             return Center(
               child: Text(
@@ -249,17 +233,16 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
                 color: isValues ? Styles.iconColor : Styles.backgroundColor,
               ),
               onPressed: isValues
-                  ? () async {
-                      var result =
-                          await _contentAnnotationBloc.insertContent(value);
+                  ? ()  {
+                      _contentAnnotationBloc.insertContent(value);
                       _textEditingController.clear();
                       value = "";
                       setState(() {
                         isValues = false;
                       });
-                      if (result) {
-                        _annotationBloc.dispatch(Run());
-                      }
+//                      if (result) {
+//                        _annotationBloc.dispatch(Run());
+//                      }
                     }
                   : null)
         ],

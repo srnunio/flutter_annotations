@@ -2,14 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_annotations/bloc/object_event.dart';
-import 'package:flutter_annotations/bloc/object_state.dart';
-import 'package:flutter_annotations/bloc/search_bloc.dart';
+import 'package:flutter_annotations/core/bloc/object_event.dart';
+import 'package:flutter_annotations/core/bloc/object_state.dart';
+import 'package:flutter_annotations/core/bloc/search_bloc.dart';
 import 'package:flutter_annotations/core/model/domain/anotation.dart';
 import 'package:flutter_annotations/ui/widget/annotation_item.dart';
 import 'package:flutter_annotations/utils/Translations.dart';
 import 'package:flutter_annotations/utils/styles.dart';
-import 'package:flutter_annotations/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchAnnotationPage extends StatelessWidget {

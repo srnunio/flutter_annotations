@@ -5,8 +5,9 @@ import 'package:flutter_annotations/core/data/preferences.dart';
 import 'package:flutter_annotations/ui/router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'bloc/simple_bloc_delegate.dart';
-import 'bloc/theme_bloc.dart';
+
+import 'core/bloc/simple_bloc_delegate.dart';
+import 'core/bloc/theme_bloc.dart';
 import 'utils/Translations.dart';
 import 'package:bloc/bloc.dart';
 

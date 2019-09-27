@@ -3,8 +3,8 @@ const COLOR_DEFAULT = "#F26430";
 //const COLOR_DEFAULT = "#35475D";
 const COLOR_RED_APP = "#ecaf04";
 const OUTHER_COLOR_DEFAULT = "#CC1B25";
-const DB_NAME_FILE = 'anotations.db';
-const DB_ANOTATION_TABLE_NAME = 'anotation';
+const DB_NAME_FILE = 'annotations.db';
+const DB_ANOTATION_TABLE_NAME = 'annotation';
 const DB_ANOTATION_TABLE_CONTENT = 'content';
 
 

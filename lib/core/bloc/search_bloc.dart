@@ -1,7 +1,4 @@
-import 'package:avatar_letter/avatar_letter.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter_annotations/bloc/theme_bloc.dart';
-import 'package:flutter_annotations/core/data/preferences.dart';
+
 import 'package:flutter_annotations/core/model/domain/anotation.dart';
 import 'package:flutter_annotations/utils/constants.dart';
 
@@ -10,11 +7,7 @@ import 'object_event.dart';
 import 'object_state.dart';
 import 'package:rxdart/rxdart.dart';
 
-//enum StateWidget { Idle, Busy, Refresh, Empty }
-
 class SearchBloc extends AnnotationBase {
-
-//  List<Annotation> annotations = [];
   String _valueQuery = null;
 
   @override
