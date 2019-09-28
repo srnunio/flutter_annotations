@@ -1,7 +1,7 @@
 # Flutter Annotations
 
 <img src="/icon.svg" width="80" height="80">
-<img src="/Google_Play_logo_app.png" width="80" height="80">
+<img src="/Google_Play_logo_app.png" width="120" height="80">
 
 ## Flutter annotations is a notebook.
 
