@@ -1,6 +1,6 @@
 # Flutter Annotations
 
-<img src="/icon.svg" width="80" height="80">
+<img src="/template_store.png" width="800" height="300">
 
 ## Flutter annotations is a notebook.
 
@@ -28,3 +28,6 @@ Sketchers, annotate ideas, and save information to reuse later is now easier wit
 
 <img src="/screenshots/theme1/image7.png" width="240" height="480"> |
 <img src="/screenshots/theme2/image7.png" width="240" height="480">
+
+<img src="/screenshots/theme2/image9.png" width="240" height="480"> |
+<img src="/screenshots/theme2/image10.png" width="240" height="480">

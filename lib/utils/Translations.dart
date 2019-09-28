@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_annotations/core/data/preferences.dart';
 
 class Translations {
   Translations(Locale locale) {
-    _Translations = this;
+    print('Translations-Calls : ${locale.languageCode}');
+    current = this;
     this.locale = locale;
   }
 
@@ -21,13 +23,14 @@ class Translations {
 //    return Localizations.of<Translations>(context, Translations);
   }
 
-  Translations _Translations;
+//  Translations _Translations;
 
   String text(String key) {
     return _localizedValues[key] ?? '** $key not found';
   }
 
   Future<Translations> run() async {
+//    var newLocale = await Tools.onLanguage();
     print('Code Run => ${"assets/locale/i18n_${locale.languageCode}.json"}');
     Translations translations = new Translations(locale);
     String jsonContent = await rootBundle
@@ -46,6 +49,8 @@ class Translations {
     } else {
       return Locale('en');
     }
+
+
   }
 
   static bool isSupported(Locale locale) =>
@@ -53,12 +58,12 @@ class Translations {
 
   static Future<Translations> load(Locale locale) async {
     locale = filterLocale(locale);
+    print('load : ${"assets/locale/i18n_${locale.languageCode}.json"}');
     Translations translations = new Translations(locale);
-
     String jsonContent = await rootBundle
         .loadString("assets/locale/i18n_${locale.languageCode}.json");
     _localizedValues = json.decode(jsonContent);
-    current = translations;
+    current = await translations.run();
     return translations;
   }
 
@@ -75,9 +80,10 @@ class TranslationsDelegate extends LocalizationsDelegate<Translations> {
   @override
 //  Future<Translations> load(Locale locale) => Translations.load(locale);
   Future<Translations> load(Locale locale) async {
-    Translations translations = new Translations(locale);
-    await translations.run();
-    return translations;
+//    print('Call loads : ${locale.languageCode}');
+//    Translations translations = new Translations(locale);
+//    await translations.run();
+    return null;
   }
 
   @override

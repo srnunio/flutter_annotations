@@ -7,31 +7,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/bloc/simple_bloc_delegate.dart';
-import 'core/bloc/theme_bloc.dart';
+import 'core/bloc/config_bloc.dart';
 import 'utils/Translations.dart';
 import 'package:bloc/bloc.dart';
 
 Future<Null> main() async {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   await Tools.init();
-  await Translations.load(Locale(await Platform.localeName));
+  await Translations.load(await Tools.onLanguage());
+//  await Translations.load(await Tools.onLanguage());
+//  print('INIT APP  = > ${Translations.current.locale.languageCode}');
+//  await Translations.load(Locale(await Platform.localeName));
   runApp(HomeAnotations());
 }
 
 class HomeAnotations extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThemeBloc>(
-      builder: (context) => ThemeBloc(),
-      child: BlocBuilder<ThemeBloc, ThemeData>(
-        builder: (context, theme) {
+
+    return BlocProvider<ConfigAppBloc>(
+      builder: (context) => ConfigAppBloc(),
+      child: BlocBuilder<ConfigAppBloc, ConfigApp>(
+        builder: (context, config) {
+//          print('HomeAnotations:currentLanguage =>  ${config.locale.languageCode}');
           return
             MaterialApp(
             supportedLocales: [
               const Locale('pt', 'PT'),
               const Locale('es', 'ES'),
               const Locale('en', 'US'),
-              Translations.current.currentLanguage
+              config.locale
             ],
             localizationsDelegates: [
               const TranslationsDelegate(),
@@ -49,9 +54,8 @@ class HomeAnotations extends StatelessWidget {
 
               return supportedLocales.first;
             },
-
             debugShowCheckedModeBanner: false,
-            theme: theme,
+            theme: config.themeData,
             initialRoute: '/',
             onGenerateRoute: Router.generateRoute,
 

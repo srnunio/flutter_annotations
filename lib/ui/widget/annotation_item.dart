@@ -397,7 +397,7 @@ class AnnotationItemUi extends StatelessWidget {
       },
       child: ExpandableNotifier(
         child: Container(
-            padding: const EdgeInsets.only(left: 16, right: 10, bottom: 10),
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 10),
             child: Builder(builder: (context) {
               controller = ExpandableController.of(context);
               return Material(

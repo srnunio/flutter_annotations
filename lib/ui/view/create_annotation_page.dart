@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_annotations/core/bloc/object_state.dart';
 import 'package:flutter_annotations/core/listeners/actions.dart';
 import 'package:flutter_annotations/core/model/domain/anotation.dart';
 import 'package:flutter_annotations/core/model/domain/content.dart';
+import 'package:flutter_annotations/ui/view/list_annotations_page.dart';
 import 'package:flutter_annotations/ui/widget/content_item.dart';
 import 'package:flutter_annotations/utils/Translations.dart';
 import 'package:flutter_annotations/utils/styles.dart';
@@ -20,7 +20,8 @@ import 'package:share/share.dart';
 class CreatedAnnotationPage extends StatelessWidget {
   Annotation _anotation;
 
-  CreatedAnnotationPage({Annotation anotation = null, BuildContext buildContext}) {
+  CreatedAnnotationPage(
+      {Annotation anotation = null, BuildContext buildContext}) {
     if (anotation == null) {
       this._anotation = Annotation();
     } else {
@@ -32,9 +33,9 @@ class CreatedAnnotationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MultiBlocProvider(providers: [
-      BlocProvider<AnnotationBloc>(
-        builder: (BuildContext context) => AnnotationBloc(),
-      ),
+//      BlocProvider<AnnotationBloc>(
+//        builder: (BuildContext context) => AnnotationBloc(),
+//      ),
       BlocProvider<ContentAnnotationBloc>(
         builder: (BuildContext context) => ContentAnnotationBloc(_anotation),
       ),
@@ -48,16 +49,17 @@ class CreatedAnnotationView extends StatefulWidget {
   CreatedAnnotationView(this._anotation);
 
   @override
-  _CreatedAnnotationView createState() =>
-      _CreatedAnnotationView(_anotation);
+  _CreatedAnnotationView createState() => _CreatedAnnotationView(_anotation);
 }
 
-class _CreatedAnnotationView extends State<CreatedAnnotationView> implements ContentMoreListener {
+class _CreatedAnnotationView extends State<CreatedAnnotationView>
+    implements ContentMoreListener {
   final Annotation _anotation;
   String value;
   bool isValues = false;
   final TextEditingController _textEditingController = TextEditingController();
   ContentAnnotationBloc _contentAnnotationBloc;
+
 //  AnnotationBloc _annotationBloc;
 
   _CreatedAnnotationView(this._anotation);
@@ -84,7 +86,7 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
       IconButton(
         padding: EdgeInsets.all(0.0),
         onPressed: () {
-          _contentAnnotationBloc.saveAnnotationDialog(context);
+          _contentAnnotationBloc.settingsDialog(context);
         },
         icon: SvgPicture.asset(
           'assets/icons/sliders.svg',
@@ -101,11 +103,11 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
       IconButton(
         padding: EdgeInsets.all(0.0),
         onPressed: () async {
-          _contentAnnotationBloc.saveAnnotationDialog(context);
-//          if (result) {
-//            print('result => ${result}');
-//            _annotationBloc.dispatch(Refresh());
-//          }
+          var result =
+              await _contentAnnotationBloc.saveAnnotationDialog(context);
+          if (result) {
+            annotationBloc.dispatch(Run());
+          }
         },
         icon: SvgPicture.asset(
           'assets/icons/save.svg',
@@ -217,7 +219,6 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
                 });
               },
               onSubmitted: (String text) {
-//                model.addContent(text);
                 _textEditingController.clear();
                 setState(() {
                   isValues = false;
@@ -233,16 +234,17 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
                 color: isValues ? Styles.iconColor : Styles.backgroundColor,
               ),
               onPressed: isValues
-                  ? ()  {
-                      _contentAnnotationBloc.insertContent(value);
+                  ? () async {
+                      var result =
+                          await _contentAnnotationBloc.insertContent(value);
                       _textEditingController.clear();
                       value = "";
                       setState(() {
                         isValues = false;
                       });
-//                      if (result) {
-//                        _annotationBloc.dispatch(Run());
-//                      }
+                      if (result) {
+                        annotationBloc.dispatch(Run());
+                      }
                     }
                   : null)
         ],
@@ -262,22 +264,20 @@ class _CreatedAnnotationView extends State<CreatedAnnotationView> implements Con
           .objects[position] as Content;
       Clipboard.setData(ClipboardData(text: content.value));
       messageToas(message: Translations.current.text('copy_test'));
-    }catch (_){}
+    } catch (_) {}
   }
 
   @override
   void deleteContent(int position) {
-   _contentAnnotationBloc.deleteItemDialog(position, context);
+    _contentAnnotationBloc.deleteItemDialog(position, context);
   }
 
   @override
   void sharedContent(int position) {
-    var content = (_contentAnnotationBloc.currentState as ObjectLoaded).objects[position] as Content;
-    final RenderBox box =
-    context.findRenderObject();
+    var content = (_contentAnnotationBloc.currentState as ObjectLoaded)
+        .objects[position] as Content;
+    final RenderBox box = context.findRenderObject();
     Share.share(content.value,
-        sharePositionOrigin:
-        box.localToGlobal(Offset.zero) &
-        box.size);
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 }

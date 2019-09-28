@@ -10,7 +10,9 @@ class Router {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => ListAnnotationPage());
+//        return MaterialPageRoute(builder: (_) => CreatedAnnotationPage());
       case '/newAnotation':
+
         return MaterialPageRoute(builder: (_) => CreatedAnnotationPage());
       case '/openAnnotation':
         var annotation = settings.arguments as Annotation;

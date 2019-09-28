@@ -61,6 +61,17 @@ String coloRandom() {
 //  return color;
 }
 
+colors({int size = 19}) {
+  List<String> _colors = [];
+  while (size >= 0) {
+    RandomColor _randomColor = RandomColor();
+    Color _color = _randomColor.randomColor();
+    _colors.add('#${_color.value.toRadixString(16).toUpperCase()}');
+    size--;
+  }
+  return _colors;
+}
+
 String runeSubstring({String input, int start, int end}) {
   return String.fromCharCodes(input.runes.toList().sublist(start, end));
 }
@@ -84,10 +95,7 @@ String letter({String value}) {
 }
 
 progressWidget() {
-  return Center(
-      child: CircularProgressIndicator(
-
-      ));
+  return Center(child: CircularProgressIndicator());
 }
 
 //
@@ -100,12 +108,16 @@ String formatHora(String value) {
 Color parseColor({String hexCode}) {}
 
 Color colorParse({String hexCode}) {
-  String hex = hexCode.replaceAll("#", "");
-  if (hex.isEmpty) hex = "ffffff";
-  if (hex.length == 3) {
-    hex =
-        '${hex.substring(0, 1)}${hex.substring(0, 1)}${hex.substring(1, 2)}${hex.substring(1, 2)}${hex.substring(2, 3)}${hex.substring(2, 3)}';
-  }
-  Color col = Color(int.parse(hex, radix: 16)).withOpacity(1.0);
-  return col;
+  try {
+    String hex = hexCode.replaceAll("#", "");
+    if (hex.isEmpty) hex = "ffffff";
+    if (hex.length == 3) {
+      hex =
+      '${hex.substring(0, 1)}${hex.substring(0, 1)}${hex.substring(1, 2)}${hex
+          .substring(1, 2)}${hex.substring(2, 3)}${hex.substring(2, 3)}';
+    }
+    Color col = Color(int.parse(hex, radix: 16)).withOpacity(1.0);
+    return col;
+  }catch(_){}
+  return Colors.black;
 }

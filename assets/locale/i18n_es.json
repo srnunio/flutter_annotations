@@ -28,6 +28,7 @@
   "message_error_loading_context": "Error al cargar contenido",
   "message_alert_exist_annotation": "Ya hay una nota con este nombre",
   "message_alert_name_annotation": "Escribir un nombre para esta nota",
+  "error_update": "Error al actualizar",
   "view_notes": "Ver notas",
   "sort": "Listado de clasificacíon",
   "view_avatars": "Ver avatar",
@@ -43,5 +44,13 @@
   "title_alert": "Esta nota ya tiene un título",
   "update": "Actualización",
   "copy_test": "Texto copiado",
+  "rename": "Renombrar",
+  "change_color": "Cambiar Color",
+  "options": "Opciones",
+  "color_changed": "Color cambiado",
+  "language": "Idioma",
+  "portuguese": "Portugués",
+  "english": "Inglés",
+  "spanish": "Español",
   "cancel": "Cancelar"
 }
