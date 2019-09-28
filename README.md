@@ -1,6 +1,6 @@
 # Flutter Annotations
 
-<img src="/template_store.png" width="800" height="300">
+<img src="/template_store.png" width="800" height="500">
 
 ## Flutter annotations is a notebook.
 
