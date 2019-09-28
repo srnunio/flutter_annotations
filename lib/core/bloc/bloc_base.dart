@@ -31,7 +31,7 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
     try {
       String query =
           'select * from $DB_ANOTATION_TABLE_CONTENT where id_anotation = ${id} order by id desc';
-      print('contentsAllAnotation|query : ${query}');
+//      print('contentsAllAnotation|query : ${query}');
       List<Map> jsons = await this.database.rawQuery(query);
       contents = jsons.map((json) => Content.fromJsonMap(json)).toList();
     } catch (ex) {
@@ -49,7 +49,7 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
 
   Future<int> insertOrUpadateDb(Annotation anotation ,{String column = ''}) async {
     int result = -1;
-    print('insertOrUpadate:column ${column}');
+//    print('insertOrUpadate:column ${column}');
     try {
       if (anotation.id_anotation > 0) {
         result = await updateAnotationDb(anotation,column:column);
@@ -105,7 +105,7 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
     await this.database.transaction((Transaction t) async {
       result = await t.rawInsert(query);
     });
-    print('query: ${query}');
+//    print('query: ${query}');
     print('insert: ${result}');
     return result;
   }
@@ -123,9 +123,9 @@ abstract class AnnotationBase extends Bloc<ObjectEvent, ObjectState> {
     column = column.length > 0 ? ', ${column} = ?' : '';
     await this.database.transaction((Transaction t) async {
       result = await t.rawUpdate('UPDATE $DB_ANOTATION_TABLE_NAME SET modifiedAt = ? ${column} WHERE id_anotation = ?',
-          ['${DateTime.now().millisecondsSinceEpoch}', '${query}', '${anotation.id_anotation}']);
+          query.isEmpty ? ['${DateTime.now().millisecondsSinceEpoch}', '${anotation.id_anotation}']:['${DateTime.now().millisecondsSinceEpoch}', '${query}', '${anotation.id_anotation}']);
     });
-    print('query = : ${query}');
+//    print('query = : ${query}');
     print('updateAnotation: ${result}');
     return result;
   }

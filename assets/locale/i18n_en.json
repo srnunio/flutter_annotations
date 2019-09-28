@@ -48,5 +48,9 @@
   "change_color": "Change Color",
   "options": "Options",
   "color_changed": "Color changed",
+  "language": "Language",
+  "portuguese": "Portuguese",
+  "english": "English",
+  "spanish": "Spanish",
   "cancel": "Cancel"
 }

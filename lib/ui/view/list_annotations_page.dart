@@ -4,10 +4,11 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_annotations/core/bloc/annotation_bloc.dart';
+import 'package:flutter_annotations/core/bloc/config_event.dart';
 import 'package:flutter_annotations/core/bloc/content_bloc.dart';
 import 'package:flutter_annotations/core/bloc/object_event.dart';
 import 'package:flutter_annotations/core/bloc/object_state.dart';
-import 'package:flutter_annotations/core/bloc/theme_bloc.dart';
+import 'package:flutter_annotations/core/bloc/config_bloc.dart';
 import 'package:flutter_annotations/core/data/preferences.dart';
 import 'package:flutter_annotations/core/listeners/actions.dart';
 import 'package:flutter_annotations/core/model/domain/anotation.dart';
@@ -19,25 +20,26 @@ import 'package:flutter_annotations/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+ AnnotationBloc annotationBloc;
 class ListAnnotationPage extends StatelessWidget {
-  ThemeBloc themeBloc;
+  ConfigAppBloc themeBloc;
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    themeBloc = BlocProvider.of<ThemeBloc>(context);
+    themeBloc = BlocProvider.of<ConfigAppBloc>(context);
     return BlocProvider<AnnotationBloc>(
         builder: (context) => AnnotationBloc(),
         child: BlocBuilder<AnnotationBloc, ObjectState>(
             builder: (context, objectState) {
-          print('objectState ${objectState}');
+//          print('objectState ${objectState}');
           return ListAnnotatioView(themeBloc);
         }));
   }
 }
 
 class ListAnnotatioView extends StatefulWidget {
-  final ThemeBloc themeBloc;
+  final ConfigAppBloc themeBloc;
 
   ListAnnotatioView(this.themeBloc);
 
@@ -46,37 +48,30 @@ class ListAnnotatioView extends StatefulWidget {
 }
 
 class _ListAnnotatioView extends State<ListAnnotatioView>
-    implements AnnotationMoreListener {
-  final ThemeBloc themeBloc;
-  AnnotationBloc _annotationBloc;
+    implements AnnotationMoreListener , ActionListener{
+  final ConfigAppBloc themeBloc;
+
 
   _ListAnnotatioView(this.themeBloc);
 
   @override
   void initState() {
-    _annotationBloc = BlocProvider.of<AnnotationBloc>(context);
+    annotationBloc = BlocProvider.of<AnnotationBloc>(context);
     super.initState();
-    _annotationBloc..dispatch(Run());
+    annotationBloc..dispatch(Run());
   }
 
-  @override
-  void deactivate() {
-    if(_annotationBloc.update){
-      _annotationBloc.dispatch(Run());
-    }
-    super.deactivate();
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AnnotationBloc>(
-        builder: (context) => _annotationBloc,
+        builder: (context) => annotationBloc,
         child: BlocBuilder<AnnotationBloc, ObjectState>(
             builder: (context, objectState) {
-              if (objectState is ObjectRefresh) {
-                _annotationBloc.dispatch(Run());
-              }
-          print('_HomeAnnotationsPage:objectState ${objectState}');
+          if (objectState is ObjectRefresh) {
+            annotationBloc.dispatch(Run());
+          }
+//          print('_HomeAnnotationsPage:objectState ${objectState}');
 
           return BackdropScaffold(
             actions: <Widget>[
@@ -97,7 +92,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
               textAlign: TextAlign.center,
               style: Styles.styleTitle(color: Styles.titleColor),
             ),
-            headerHeight: 500.0,
+            headerHeight: 450.0,
             backLayer: Container(
               child: Center(
                 child: _buildMores(),
@@ -195,7 +190,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _annotationBloc.updateSortList(
+                                        annotationBloc.updateSortList(
                                             SortListing.CreatedAt);
                                       },
                                       child: _chipingSort(
@@ -205,7 +200,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _annotationBloc.updateSortList(
+                                        annotationBloc.updateSortList(
                                             SortListing.ModifiedAt);
                                       },
                                       child: _chipingSort(
@@ -278,7 +273,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _annotationBloc.updateAvatarMode(
+                                        annotationBloc.updateAvatarMode(
                                             LetterType.Circular);
                                       },
                                       child: _chipingLeeter(
@@ -288,7 +283,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                                   FlatButton(
                                       onPressed: () {
                                         controller.toggle();
-                                        _annotationBloc.updateAvatarMode(
+                                        annotationBloc.updateAvatarMode(
                                             LetterType.Rectangle);
                                       },
                                       child: _chipingLeeter(
@@ -298,7 +293,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                                   FlatButton(
                                       onPressed: () async {
                                         controller.toggle();
-                                        _annotationBloc
+                                        annotationBloc
                                             .updateAvatarMode(LetterType.None);
                                       },
                                       child: _chipingLeeter(
@@ -363,10 +358,33 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                           themeBloc.themeType == ThemeType.Light ? false : true,
                       onChanged: (bool value) {
                         themeBloc
-                            .dispatch(value ? ThemeType.Dark : ThemeType.Light);
+                            .dispatch(ConfigChangeTheme(value ? ThemeType.Dark : ThemeType.Light));
                       }),
                 ],
-              ))
+              )),
+          SizedBox(
+            height: 10,
+          ),
+          FlatButton(
+            padding: EdgeInsets.all(0.0),
+            onPressed: () {
+              annotationBloc.changeLanguageDialog(context,this);
+            },
+            child: Material(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              color: Styles.placeholderColor,
+              child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  width: double.infinity,
+                  child: Text(Translations.current.text('language'),
+                      style: Styles.styleDescription(
+                        color: Styles.titleColor,
+                        textSizeDescription: 16,
+                      ))),
+            ),
+          )
         ],
       ),
     );
@@ -376,12 +394,6 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
     return Scaffold(
       body: BlocBuilder<AnnotationBloc, ObjectState>(
         builder: (context, objectState) {
-          print('_home:objectState => ${objectState}');
-          if (objectState is ObjectRefresh) {
-            print('_homeAnnotations:objectState => ObjectRefresh');
-            _annotationBloc.dispatch(Run());
-            return progressWidget();
-          }
           if (objectState is ObjectError) {
             return Center(
               child: Column(
@@ -393,7 +405,7 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                   ),
                   FlatButton(
                       onPressed: () {
-                        _annotationBloc.dispatch(Run());
+                        annotationBloc.dispatch(Run());
                       },
                       child: Text(
                         Translations.current.text('update'),
@@ -405,7 +417,6 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
             );
           }
           if (objectState is ObjectLoaded) {
-//            print('_homeAnnotations:objectState => ObjectLoaded');
             var objectLoaded = (objectState as ObjectLoaded);
             if (objectState.objects.isEmpty) {
               return Center(
@@ -415,12 +426,10 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
                 ),
               );
             }
-//            print('_homeAnnotations:objectState => ListView');
             return ListView.builder(
                 itemCount: objectLoaded.objects.length,
                 itemBuilder: (context, index) {
                   var anotation = (objectLoaded.objects[index] as Annotation);
-                  print('anotation.color: ${anotation.color}');
                   return AnnotationItemUi(
                     key: Key(anotation.title),
                     position: index,
@@ -467,18 +476,23 @@ class _ListAnnotatioView extends State<ListAnnotatioView>
 
   @override
   void deleteAnnotation(int position) {
-    _annotationBloc.deleteItemDialog(position, context);
+    annotationBloc.deleteItemDialog(position, context);
   }
 
   @override
   void infoAnnotation(int position) {
-    _annotationBloc.detailItem(position, context);
+    annotationBloc.detailItem(position, context);
   }
 
   @override
   void openAnnotation(int position) {
     var annotation =
-        (_annotationBloc.currentState as ObjectLoaded).objects[position];
+        (annotationBloc.currentState as ObjectLoaded).objects[position];
     Navigator.pushNamed(context, '/openAnnotation', arguments: annotation);
+  }
+
+  @override
+  onChangeLanguage(Locale locale) {
+    themeBloc.dispatch(ConfigChangeLanguage(locale));
   }
 }

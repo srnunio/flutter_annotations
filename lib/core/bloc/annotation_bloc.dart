@@ -2,6 +2,7 @@ import 'package:avatar_letter/avatar_letter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_annotations/core/data/preferences.dart';
+import 'package:flutter_annotations/core/listeners/actions.dart';
 import 'package:flutter_annotations/core/model/domain/anotation.dart';
 import 'package:flutter_annotations/ui/widget/annotation_item.dart';
 import 'package:flutter_annotations/utils/Translations.dart';
@@ -14,8 +15,6 @@ import 'object_event.dart';
 import 'object_state.dart';
 
 class AnnotationBloc extends AnnotationBase {
-
-
   @override
   get initialState => ObjectUninitialized();
 
@@ -27,6 +26,107 @@ class AnnotationBloc extends AnnotationBase {
   void updateAvatarMode(LetterType letterType) async {
     Tools.updateLetterType(letterType);
     dispatch(Reload());
+  }
+
+  Future changeLanguageDialog(
+      BuildContext context, ActionListener actionListener) {
+    showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (BuildContext c) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              height: 280,
+              decoration: BoxDecoration(
+                  color: Styles.backgroundColor,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    Translations.current.text('language'),
+                    maxLines: 1,
+                    style: Styles.styleTitle(color: Styles.titleColor),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    child: Container(
+                      color: Styles.placeholderColor,
+                    ),
+                    height: 0.5,
+                    width: double.infinity,
+                  ),
+                  ListTile(
+                    onTap: () async {
+                      Navigator.pop(context);
+                      await Tools.updateLanguage('pt');
+                      actionListener.onChangeLanguage(Locale('pt'));
+                    },
+                    title: Text(
+                      Translations.current.text('portuguese'),
+                      maxLines: 1,
+                      style: Styles.styleTitle(color: Styles.titleColor),
+                    ),
+                    trailing: Checkbox(
+                        value: Translations.current.locale.languageCode
+                            .contains('pt'),
+                        onChanged: null),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Tools.updateLanguage('en');
+                      actionListener.onChangeLanguage(Locale('en'));
+                    },
+                    title: Text(
+                      Translations.current.text('english'),
+                      maxLines: 1,
+                      style: Styles.styleTitle(color: Styles.titleColor),
+                    ),
+                    trailing: Checkbox(
+                        value: Translations.current.locale.languageCode
+                            .contains('en'),
+                        onChanged: null),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Tools.updateLanguage('es');
+                      actionListener.onChangeLanguage(Locale('es'));
+                    },
+                    title: Text(
+                      Translations.current.text('spanish'),
+                      maxLines: 1,
+                      style: Styles.styleTitle(color: Styles.titleColor),
+                    ),
+                    trailing: Checkbox(
+                        value: Translations.current.locale.languageCode
+                            .contains('es'),
+                        onChanged: null),
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      Translations.current.text('cancel'),
+                      maxLines: 1,
+                      style: Styles.styleDescription(color: Styles.titleColor),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+//    _switchColorDialog(context);
   }
 
   Future detailItem(int index, BuildContext context) {
@@ -74,13 +174,12 @@ class AnnotationBloc extends AnnotationBase {
                     height: 15,
                   ),
                   Center(
-                    child:
-                      Text(
-                        Translations.current.text('delete_anotation'),
-                        style: Styles.styleDescription(
-                            textSizeDescription: 16.0,
-                            color: Styles.subtitleColor),
-                      ),
+                    child: Text(
+                      Translations.current.text('delete_anotation'),
+                      style: Styles.styleDescription(
+                          textSizeDescription: 16.0,
+                          color: Styles.subtitleColor),
+                    ),
                   ),
                   SizedBox(
                     height: 30,
@@ -164,14 +263,11 @@ class AnnotationBloc extends AnnotationBase {
           sort == SortListing.CreatedAt ? 'createdAt desc' : 'modifiedAt desc ';
       var query = 'select * from $DB_ANOTATION_TABLE_NAME order by ${filter} ';
       List<Map> jsons = await this.database.rawQuery(query);
-      int i = 1;
       for (Map json in jsons) {
         var anotation = Annotation.fromJsonMap(json);
-        print('${i} - anotation => ${anotation.toMap()}');
         anotation
             .setContents(await contentsAllAnotation(anotation.id_anotation));
         annotations.add(anotation);
-        i++;
       }
     } catch (ex) {
       print('Exception => ${ex.toString()}');
@@ -182,7 +278,7 @@ class AnnotationBloc extends AnnotationBase {
   @override
   Stream<ObjectState> mapEventToState(ObjectEvent event) async* {
     print('AnnotationBloc : mapEventToState => ${event}');
-    print('AnnotationBloc : mapEventToState : currentState => ${currentState}');
+//    print('AnnotationBloc : mapEventToState : currentState => ${currentState}');
     if (event is Run) {
       try {
         if (currentState is ObjectUninitialized) {
@@ -192,6 +288,7 @@ class AnnotationBloc extends AnnotationBase {
           return;
         }
         if (currentState is ObjectLoaded) {
+
           var annotations = await _readAnnotations();
           update = false;
           yield annotations.isEmpty
