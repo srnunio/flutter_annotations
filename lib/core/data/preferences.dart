@@ -1,4 +1,9 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:avatar_letter/avatar_letter.dart';
+import 'package:flutter_annotations/utils/Translations.dart';
+import 'package:flutter_annotations/utils/Translations.dart' as prefix0;
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum SortListing { CreatedAt, ModifiedAt }
@@ -11,6 +16,9 @@ class Tools {
   static final LETTER_KEY = 'DesignItem';
   static final SORT_KEY = 'SortListing';
   static final ThemeType_KEY = 'ThemeType';
+  static final LANGUAGE = 'LANGUAGE';
+
+  static final  Languages = ['pt', 'en', 'es'];
 
   static init() async {
     prefs = await SharedPreferences.getInstance();
@@ -26,17 +34,26 @@ class Tools {
     prefs.setString(SORT_KEY, '${type}');
   }
 
+  static updateLanguage(String code) async {
+    prefs.setString(LANGUAGE,code.trim());
+    await Translations.load(Locale(code));
+  }
+
   static updateTheme(ThemeType type) {
     prefs.setString(ThemeType_KEY, '${type}');
   }
 
-  static ThemeType onThemeType()  {
-    var type = prefs.getString(ThemeType_KEY)??null;
+  static Future<Locale> onLanguage() async {
+    String code = prefs.getString(LANGUAGE) ??  Platform.localeName;
+    print('onLanguage : ${code}');
+    return Translations.filterLocale(Locale(code));
+  }
+
+  static ThemeType onThemeType() {
+    var type = prefs.getString(ThemeType_KEY) ?? null;
     return (type == null)
         ? ThemeType.Light
-        : (type == '${ThemeType.Light}')
-        ? ThemeType.Light
-        : ThemeType.Dark;
+        : (type == '${ThemeType.Light}') ? ThemeType.Light : ThemeType.Dark;
   }
 
   static Future<SortListing> onSortListing() async {

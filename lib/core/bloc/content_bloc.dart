@@ -324,6 +324,7 @@ class ContentAnnotationBloc extends AnnotationBase {
                       keyboardAppearance: Brightness.light,
                       keyboardType: TextInputType.text,
                       maxLines: 1,
+                      autofocus: true,
                       decoration: InputDecoration(
                           counterStyle:
                               Styles.styleDescription(color: Styles.titleColor),
@@ -445,7 +446,7 @@ class ContentAnnotationBloc extends AnnotationBase {
   Future<bool> insertContent(String value) async {
     if (value == null || value.isEmpty) return false;
 
-    var result = 0;
+    var result = -1;
     var newContent = Content(
         value: value,
         modifiedAt: DateTime.now(),
