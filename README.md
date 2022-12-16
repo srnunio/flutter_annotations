@@ -1,5 +1,8 @@
 # Flutter Annotations
-
+****
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+****
+ 
 <img src="/icon.svg" width="80" height="80">
 <img src="/Google_Play_logo_app.png" width="200" height="80">
 
