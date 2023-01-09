@@ -1,3 +1,7 @@
+#### :warning: ARCHIVED: This repository is using Flutter 1.5 for the sample app.
+
+#### The updated Medium article for "Flutter: Implementing Google Sign In" is [here](https://medium.com/flutter-community/flutter-implementing-google-sign-in-71888bca24ed).
+
 # Flutter Annotations
 ****
 [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
